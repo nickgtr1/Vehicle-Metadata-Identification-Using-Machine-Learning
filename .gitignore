@@ -3,3 +3,7 @@ data/processed/
 venv/
 __pycache__/
 .ipynb_checkpoints/
+models/*.pt
+*.egg-info/
+outputs/
+venv312/
