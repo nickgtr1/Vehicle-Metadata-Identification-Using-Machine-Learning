@@ -34,11 +34,19 @@ def build_manifest(
                         "year": year,
                         "bbox": bbox,
                         "viewpoint": viewpoint,
-                        "car_type": car_type,
+                        "car_type": car_type,  
                     })
     df = pd.DataFrame(records)
 
+  
     repo_root = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", ".."))
+    attrs_path = os.path.join(repo_root, "data", "raw", "compcars", "misc", "attributes.txt")
+    attrs = pd.read_csv(attrs_path, sep=r"\s+", header=0)
+
+    df["model_id"] = df["model_id"].astype(int)
+    attrs["model_id"] = attrs["model_id"].astype(int)
+    df = df.merge(attrs[["model_id", "type"]], on="model_id", how="left")
+
     manifest_dir = os.path.join(repo_root, "data", "manifests")
     os.makedirs(manifest_dir, exist_ok=True)
     df.to_csv(os.path.join(manifest_dir, "compcars_manifest.csv"), index=False)
