@@ -1,0 +1,16 @@
+{
+  "schema_version": "0.1.0-draft",
+  "source_image_id": "blocked_car",
+  "localisation_model": {
+    "name": "yolo26n",
+    "version": "unconfirmed-notebook-saved-output",
+    "confidence_threshold": 0.25
+  },
+  "detections": [
+    {"vehicle_crop_id": "blocked_car_vehicle_01", "bbox_xyxy": [1044.2389, 617.1313, 1402.0167, 799.2258], "confidence": 0.8820276856422424, "crop_path": "outputs/crops/blocked_car_vehicle_01.jpg", "crop_width": 358, "crop_height": 182, "attribute_input_status": "ready", "rejection_reason": null},
+    {"vehicle_crop_id": "blocked_car_vehicle_02", "bbox_xyxy": [184.8864, 555.8764, 1065.4639, 942.8868], "confidence": 0.8637356758117676, "crop_path": "outputs/crops/blocked_car_vehicle_02.jpg", "crop_width": 880, "crop_height": 387, "attribute_input_status": "ready", "rejection_reason": null},
+    {"vehicle_crop_id": "blocked_car_vehicle_03", "bbox_xyxy": [1372.3719, 575.4816, 1920.0, 863.4558], "confidence": 0.8502070903778076, "crop_path": "outputs/crops/blocked_car_vehicle_03.jpg", "crop_width": 548, "crop_height": 288, "attribute_input_status": "ready", "rejection_reason": null},
+    {"vehicle_crop_id": "blocked_car_vehicle_04", "bbox_xyxy": [25.0239, 542.9989, 631.6556, 839.9019], "confidence": 0.7773776054382324, "crop_path": "outputs/crops/blocked_car_vehicle_04.jpg", "crop_width": 607, "crop_height": 297, "attribute_input_status": "ready", "rejection_reason": null},
+    {"vehicle_crop_id": "blocked_car_vehicle_05", "bbox_xyxy": [1002.3455, 587.0291, 1146.0386, 693.0453], "confidence": 0.5411469340324402, "crop_path": "outputs/crops/blocked_car_vehicle_05.jpg", "crop_width": 144, "crop_height": 106, "attribute_input_status": "ready", "rejection_reason": null}
+  ]
+}
