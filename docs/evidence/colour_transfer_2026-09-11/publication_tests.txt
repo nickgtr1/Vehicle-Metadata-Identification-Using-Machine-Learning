@@ -1,0 +1,30 @@
+COMMAND (normalised executable): python -m unittest discover -s tests -v
+CWD: repository root
+test_duplicate_path_audit (test_attribute_modelling.ModellingTests.test_duplicate_path_audit) ... ok
+test_group_conflict_rejected (test_attribute_modelling.ModellingTests.test_group_conflict_rejected) ... ok
+test_invalid_boxes (test_attribute_modelling.ModellingTests.test_invalid_boxes) ... ok
+test_metrics (test_attribute_modelling.ModellingTests.test_metrics) ... ok
+test_path_traversal_rejected (test_attribute_modelling.ModellingTests.test_path_traversal_rejected) ... ok
+test_pipeline_no_weights_and_no_detections (test_attribute_modelling.ModellingTests.test_pipeline_no_weights_and_no_detections) ... ok
+test_published_notebook_path (test_attribute_modelling.ModellingTests.test_published_notebook_path) ... ok
+test_repeatable_split_keeps_test (test_attribute_modelling.ModellingTests.test_repeatable_split_keeps_test) ... ok
+test_resnet_heads_no_download (test_attribute_modelling.ModellingTests.test_resnet_heads_no_download) ... ok
+test_shared_mapping_crop_and_no_bbox (test_attribute_modelling.ModellingTests.test_shared_mapping_crop_and_no_bbox) ... ok
+test_blue_image (test_colour_baseline.ColourBaselineTests.test_blue_image) ... ok
+test_red_image (test_colour_baseline.ColourBaselineTests.test_red_image) ... ok
+test_duplicate_content_rejected (test_colour_transfer.ColourTransferTests.test_duplicate_content_rejected) ... ok
+test_fixed_split_passes (test_colour_transfer.ColourTransferTests.test_fixed_split_passes) ... ok
+test_official_test_rejected (test_colour_transfer.ColourTransferTests.test_official_test_rejected) ... ok
+test_path_or_label_change_rejected (test_colour_transfer.ColourTransferTests.test_path_or_label_change_rejected) ... ok
+test_phase_and_batchnorm_freezing (test_colour_transfer.ColourTransferTests.test_phase_and_batchnorm_freezing) ... ok
+test_archive_crc_checker (test_real_pilot.PilotTests.test_archive_crc_checker) ... ok
+test_hash_group_split_and_official_test_exclusion (test_real_pilot.PilotTests.test_hash_group_split_and_official_test_exclusion) ... ok
+test_manifest_mapping_preserves_source (test_real_pilot.PilotTests.test_manifest_mapping_preserves_source) ... ok
+test_missing_body_type_not_convertible (test_real_pilot.PilotTests.test_missing_body_type_not_convertible) ... ok
+
+----------------------------------------------------------------------
+Ran 21 tests in 0.527s
+
+OK
+
+EXIT_CODE: 0

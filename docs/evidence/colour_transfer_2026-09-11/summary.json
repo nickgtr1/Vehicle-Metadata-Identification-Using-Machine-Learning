@@ -1,0 +1,23 @@
+{
+  "training_completed": true,
+  "train_rows": 1540,
+  "validation_rows": 386,
+  "best_epoch": 8,
+  "validation_accuracy": 0.7253886010362695,
+  "validation_macro_f1": 0.7299082471403191,
+  "accuracy_delta_percentage_points": 55.44041450777202,
+  "macro_f1_delta": 0.6122213434736329,
+  "checkpoint_reload_verified": true,
+  "csv_metrics_independently_verified": true,
+  "selected_image_hashes_rechecked": 1926,
+  "official_test_evaluated": false,
+  "training_seconds": 102.81089380000049,
+  "cpu_validation_seconds_including_image_loading": 9.71396210000239,
+  "cpu_validation_images_per_second_including_loading": 39.736617872938275,
+  "forward_latency_median_ms": 1.8075000007229391,
+  "latency_device": "cuda",
+  "latency_scope": "batch1, 224px, 10 warmups, 50 trials, forward only; excludes preprocessing/detection/UI",
+  "model_bytes": 44795972,
+  "checkpoint_sha256": "49d9feebf34a952717753d898af5f36aafb385cd0ebeb8fcb4e8b52912b78739",
+  "scope": "Capped same-split validation comparison; not full training, independent test, or police-domain validation."
+}
