@@ -21,6 +21,53 @@ from vehicle_id.attributes.colour import estimate_colour
 from vehicle_id.schema import VehicleProfile
 
 
+def analyse_vehicle_image(image_path, predictors=None, *, detections=None, detector_weights=None):
+    """Streamlit entry point. Use explicit existing YOLO weights or supplied boxes.
+
+    predictors maps make/body_type/colour to already-loaded AttributePredictor objects.
+    No model downloads, file writes, or assumptions that unavailable tasks ran.
+    """
+    from math import isfinite
+    predictors = predictors or {}
+    if set(predictors) - {'make', 'body_type', 'colour'}:
+        raise ValueError('Unsupported attribute predictor key')
+    if detections is None:
+        if detector_weights is None or not Path(detector_weights).is_file():
+            raise FileNotFoundError('Provide approved, existing YOLO weights; auto-download is disabled')
+        from vehicle_id.localisation.detector import detect_vehicles
+        detections = detect_vehicles(str(image_path), str(Path(detector_weights).resolve()))
+    with Image.open(image_path) as source:
+        image = source.convert('RGB')
+    annotated = image.copy()
+    draw = ImageDraw.Draw(annotated)
+    records = []
+    for i, detection in enumerate(detections, 1):
+        raw = detection.get('bbox', detection.get('bbox_xyxy'))
+        if raw is None or len(raw) != 4 or not all(isfinite(float(v)) for v in raw):
+            raise ValueError('Detection needs four finite bbox coordinates')
+        confidence = float(detection['confidence'])
+        if not isfinite(confidence) or not 0 <= confidence <= 1:
+            raise ValueError('Detection confidence must be within [0,1]')
+        box = _bounded_bbox(raw, *image.size)
+        crop = image.crop(box)
+        profile = VehicleProfile(status={k: 'not_assessed' for k in
+                                         ['make', 'model', 'body_type', 'colour', 'damage', 'accessories']})
+        for task, predictor in predictors.items():
+            if predictor.config['task'] != task:
+                raise ValueError('Checkpoint task does not match pipeline key')
+            result = predictor.predict(crop)
+            setattr(profile, task, result['label'])
+            profile.confidence[task] = result['score']
+            profile.status[task] = result['status']
+        records.append({'vehicle_crop_id': f'vehicle_{i:03d}', 'bbox_xyxy': list(box),
+                        'detection_confidence': confidence, 'vehicle_profile': asdict(profile)})
+        draw.rectangle(box, outline='yellow', width=3)
+        label = f'V{i}: ' + ', '.join(f'{k}={getattr(profile,k)}' for k in predictors)
+        draw.text((box[0] + 3, box[1] + 3), label or f'V{i}', fill='yellow')
+    return {'vehicles': records, 'annotated_image': annotated,
+            'confidence_semantics': 'Uncalibrated softmax scores for learned attributes'}
+
+
 def _sha256(path: Path) -> str:
     digest = hashlib.sha256()
     with path.open("rb") as handle:

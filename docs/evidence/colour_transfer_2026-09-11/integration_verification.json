@@ -1,0 +1,7 @@
+{
+  "checkpoint_hash_verified": true,
+  "shared_pipeline_accepted_checkpoint": true,
+  "pilot_status_preserved": true,
+  "live_yolo_run": false,
+  "source_split": "official train"
+}
