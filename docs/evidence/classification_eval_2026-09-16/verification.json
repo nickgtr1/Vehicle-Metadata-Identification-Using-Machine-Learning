@@ -1,0 +1,56 @@
+{
+  "schema": "36127.classification_eval_verification/v1",
+  "date": "2026-09-16",
+  "source_round": "R4 (local working-copy commit 1f028eb)",
+  "what_was_checked": {
+    "metric_definition_not_drifted": {
+      "statement": "recomputing the saved colour validation predictions reproduces the stored pilot values exactly",
+      "accuracy": 0.7253886010362695,
+      "macro_f1": 0.7299082471403191,
+      "max_abs_difference_in_the_matrix_reconstruction": 1.1102230246251565e-16
+    },
+    "third_party_aggregates_reproduced": {
+      "statement": "recomputing the PR #5 confusion matrices reproduces the values that PR reports",
+      "make_macro_f1": 0.5890462077274896,
+      "body_type_macro_f1": 0.6960901786007714
+    },
+    "display_rename_cannot_change_a_metric": {
+      "statement": "the same make matrix run with raw and trimmed display names gives identical values",
+      "changed_display_names": 2,
+      "class_ids": [
+        31,
+        41
+      ]
+    },
+    "output_check": {
+      "checks_total": 176,
+      "checks_failed": 0,
+      "equality_checks_against_previous_round": 36
+    },
+    "cli_probes": {
+      "probes": 19,
+      "failed_checks": 0
+    },
+    "test_suites": {
+      "unified_evaluation_tests": {
+        "tests": 81,
+        "result": "OK"
+      },
+      "existing_module_tests": {
+        "tests": 21,
+        "result": "OK"
+      },
+      "team_pr5_snapshot_tests": {
+        "tests": 25,
+        "result": "OK"
+      }
+    }
+  },
+  "what_was_not_checked": [
+    "row-level correctness for make and body type, including duplicate samples and per-row label errors; only aggregate matrices are available",
+    "near-duplicate or same-physical-vehicle disjointness for any task",
+    "official test performance for any task"
+  ],
+  "no_training": "no model was trained, fine-tuned or re-run for this evidence",
+  "no_official_test": "no official test split was read or evaluated"
+}
