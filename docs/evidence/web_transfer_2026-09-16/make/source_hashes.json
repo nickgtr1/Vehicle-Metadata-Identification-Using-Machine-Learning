@@ -1,0 +1,8 @@
+{
+  "train_web_transfer.py": "9927b41a4ed47c03ffd9e13bd9ee516829c8bbd6edfc7b8f7fe6d4ba059c7d02",
+  "train_colour_transfer.py": "208bc95aa422d9dbf5af28de58c285979e9be1c6fd68dcbaad8ba28ca8aee59a",
+  "train_real_compcars_pilots.py": "a30fcbd69bcdba903b70476859e2d668a8de3265f07820a7b2ed61740dc530eb",
+  "audit_local_compcars.py": "4207330ec8c08ce3c65dcf40ee2f90c53705a4792be20505735709240b790830",
+  "dataset.py": "1b1f7a98449c38c588e2ca50e1f361571d70fcb0664162c259e957aa1d203214",
+  "modelling.py": "c828ca2da9799b7393af808d8a460770cead062c615b1cbecfa090789295475e"
+}

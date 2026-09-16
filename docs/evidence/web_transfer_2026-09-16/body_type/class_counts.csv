@@ -1,0 +1,25 @@
+experiment_split,car_type_name,count
+train,MPV,400
+train,SUV,400
+train,convertible,104
+train,crossover,64
+train,estate,204
+train,fastback,391
+train,hardtop convertible,171
+train,hatchback,400
+train,minibus,112
+train,pickup,66
+train,sedan,400
+train,sports,400
+validation,MPV,100
+validation,SUV,100
+validation,convertible,26
+validation,crossover,17
+validation,estate,52
+validation,fastback,98
+validation,hardtop convertible,43
+validation,hatchback,100
+validation,minibus,29
+validation,pickup,17
+validation,sedan,100
+validation,sports,100

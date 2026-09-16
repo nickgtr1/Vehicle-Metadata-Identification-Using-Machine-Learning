@@ -1,0 +1,444 @@
+task,target,prediction,count
+body_type,fastback,sedan,42
+body_type,hatchback,sedan,19
+body_type,sports,sedan,16
+body_type,hardtop convertible,sedan,12
+body_type,estate,sedan,11
+body_type,estate,MPV,8
+body_type,hatchback,SUV,7
+body_type,sedan,hatchback,7
+body_type,MPV,sedan,6
+body_type,SUV,sedan,6
+body_type,fastback,hatchback,6
+body_type,hatchback,MPV,6
+body_type,MPV,hatchback,5
+body_type,convertible,hardtop convertible,5
+body_type,SUV,MPV,4
+body_type,fastback,sports,4
+body_type,hatchback,crossover,4
+body_type,minibus,MPV,4
+body_type,sedan,fastback,4
+body_type,sedan,sports,4
+body_type,sports,hardtop convertible,4
+body_type,MPV,SUV,3
+body_type,crossover,hatchback,3
+body_type,estate,hatchback,3
+body_type,hatchback,fastback,3
+body_type,sedan,MPV,3
+body_type,sedan,SUV,3
+body_type,sports,fastback,3
+body_type,MPV,estate,2
+body_type,MPV,fastback,2
+body_type,SUV,fastback,2
+body_type,SUV,hatchback,2
+body_type,SUV,sports,2
+body_type,convertible,MPV,2
+body_type,convertible,sports,2
+body_type,crossover,SUV,2
+body_type,estate,sports,2
+body_type,fastback,SUV,2
+body_type,fastback,hardtop convertible,2
+body_type,hardtop convertible,convertible,2
+body_type,hardtop convertible,sports,2
+body_type,hatchback,estate,2
+body_type,sedan,convertible,2
+body_type,sports,convertible,2
+body_type,sports,hatchback,2
+body_type,MPV,hardtop convertible,1
+body_type,SUV,estate,1
+body_type,SUV,minibus,1
+body_type,convertible,SUV,1
+body_type,convertible,fastback,1
+body_type,convertible,hatchback,1
+body_type,estate,SUV,1
+body_type,estate,fastback,1
+body_type,estate,hardtop convertible,1
+body_type,fastback,convertible,1
+body_type,hardtop convertible,hatchback,1
+body_type,hatchback,convertible,1
+body_type,hatchback,minibus,1
+body_type,hatchback,sports,1
+body_type,pickup,SUV,1
+body_type,pickup,hatchback,1
+body_type,sedan,crossover,1
+body_type,sedan,estate,1
+body_type,sedan,hardtop convertible,1
+make,Volvo,BWM,6
+make,Buck,Skoda,4
+make,Citroen,Skoda,4
+make,GreatWall,Haima,4
+make,Haima,MAZDA,4
+make,Mitsubishi,Lexus,4
+make,Mitsubishi,MAZDA,4
+make,Zhonghua,Buck,4
+make,BYD,Hyundai ,3
+make,Besturn,MAZDA,3
+make,Changan,Hyundai ,3
+make,Chevy,Buck,3
+make,Chevy,Lexus,3
+make,Geely,Skoda,3
+make,Haima,Hyundai ,3
+make,Infiniti,BWM,3
+make,Jaguar,Benz,3
+make,Jianghuai,Hyundai ,3
+make,Jianghuai,Skoda,3
+make,Nissan,Buck,3
+make,Nissan,Toyota,3
+make,Renault,Skoda,3
+make,Subaru,BWM,3
+make,Suzuki,Skoda,3
+make,Volkswagen,BWM,3
+make,Volkswagen,Honda,3
+make,Audi,Lexus,2
+make,Audi,Skoda,2
+make,BYD,MAZDA,2
+make,Baojun,BAW,2
+make,Baojun,Buck,2
+make,Baojun,Roewe,2
+make,Besturn,Buck,2
+make,Besturn,Honda,2
+make,Buck,MAZDA,2
+make,Changan,MAZDA,2
+make,Changan,Toyota,2
+make,Chevy,Ford,2
+make,Chevy,Skoda,2
+make,Chrey,Haima,2
+make,Chrey,Renault,2
+make,Chrey,Zhonghua,2
+make,Citroen,Hyundai ,2
+make,Citroen,Renault,2
+make,DS,Lexus,2
+make,Everus,Skoda,2
+make,Ford,BWM,2
+make,Ford,Hyundai ,2
+make,Ford,Mitsubishi,2
+make,Ford,Skoda,2
+make,Geely,Volvo,2
+make,Haima,Buck,2
+make,Hyundai ,Buck,2
+make,Hyundai ,Honda,2
+make,Infiniti,Hyundai ,2
+make,Infiniti,MAZDA,2
+make,Jaguar,Audi,2
+make,Jeep,BWM,2
+make,Jianghuai,Haima,2
+make,KIA,Hyundai ,2
+make,KIA,Roewe,2
+make,LAND-ROVER,Jeep,2
+make,Lotus,Hyundai ,2
+make,MAZDA,Honda,2
+make,MAZDA,Opel,2
+make,MG,KIA,2
+make,MINI,BWM,2
+make,Mitsubishi,BWM,2
+make,Mitsubishi,Jianghuai,2
+make,Nissan,Lexus,2
+make,Opel,Buck,2
+make,Opel,Honda,2
+make,Peugeot,Ford,2
+make,Peugeot,Hyundai ,2
+make,Peugeot,Opel,2
+make,Porsche,Lexus,2
+make,Porsche,Nissan,2
+make,Roewe,Buck,2
+make,Roewe,Ford,2
+make,Roewe,Skoda,2
+make,SAAB,Lexus,2
+make,Subaru,MAZDA,2
+make,Suzuki,Buck,2
+make,Suzuki,Mitsubishi,2
+make,Suzuki,Renault,2
+make,Toyota,Honda,2
+make,Toyota,Hyundai ,2
+make,Volkswagen,Benz,2
+make,Volvo,Hyundai ,2
+make,Yiqi,Chevy,2
+make,Zhonghua,Benz,2
+make,Zhonghua,Skoda,2
+make,Zxauto,GreatWall,2
+make,Audi,BWM,1
+make,Audi,Benz,1
+make,Audi,Jaguar,1
+make,Audi,Volvo,1
+make,BAW,Skoda,1
+make,BWM,Benz,1
+make,BWM,Ford,1
+make,BWM,Jaguar,1
+make,BYD,Buck,1
+make,BYD,Chrey,1
+make,BYD,Ford,1
+make,BYD,GreatWall,1
+make,BYD,Honda,1
+make,BYD,Toyota,1
+make,Baojun,BYD,1
+make,Baojun,Everus,1
+make,Baojun,KIA,1
+make,Baojun,Skoda,1
+make,Baojun,Suzuki,1
+make,Baojun,Volkswagen,1
+make,Benz,BWM,1
+make,Benz,Buck,1
+make,Benz,Haima,1
+make,Benz,Honda,1
+make,Benz,Hyundai ,1
+make,Benz,Jaguar,1
+make,Benz,LAND-ROVER,1
+make,Benz,MAZDA,1
+make,Benz,Skoda,1
+make,Benz,Volkswagen,1
+make,Besturn,FIAT,1
+make,Besturn,Hyundai ,1
+make,Besturn,Skoda,1
+make,Besturn,Toyota,1
+make,Brabus,Benz,1
+make,Brabus,Geely,1
+make,Buck,Ford,1
+make,Buck,Renault,1
+make,Cadillac,BWM,1
+make,Cadillac,Volvo,1
+make,Changan,Buck,1
+make,Changan,Chevy,1
+make,Changan,Ford,1
+make,Changan,Honda,1
+make,Changan,Jianghuai,1
+make,Changan,Volkswagen,1
+make,Chevy,Audi,1
+make,Chevy,BWM,1
+make,Chevy,Cadillac,1
+make,Chevy,Haima,1
+make,Chevy,Lamorghini ,1
+make,Chrey,BAW,1
+make,Chrey,Baojun,1
+make,Chrey,Benz,1
+make,Chrey,Buck,1
+make,Chrey,Changan,1
+make,Chrey,Dongfengfengxing,1
+make,Chrey,Honda,1
+make,Chrey,Hyundai ,1
+make,Chrey,Jeep,1
+make,Chrey,Jianghuai,1
+make,Chrey,Lifan,1
+make,Chrey,Opel,1
+make,Chrysler,Lexus,1
+make,Citroen,Buck,1
+make,Citroen,Honda,1
+make,DS,Audi,1
+make,DS,Citroen,1
+make,DS,Ford,1
+make,DS,Haima,1
+make,DS,MINI,1
+make,DS,Toyota,1
+make,Dongfengfengdu,Honda,1
+make,Dongfengfengshen,BYD,1
+make,Dongfengfengshen,Cadillac,1
+make,Dongfengfengshen,Haima,1
+make,Dongfengfengshen,Hyundai ,1
+make,Dongfengfengshen,Jianghuai,1
+make,Dongfengfengshen,Lifan,1
+make,Dongfengfengshen,Toyota,1
+make,Dongfengfengshen,Venucia,1
+make,Dongfengfengshen,Volkswagen,1
+make,Dongfengfengshen,Volvo,1
+make,Dongfengfengshen,Zhonghua,1
+make,Dongfengfengxing,Toyota,1
+make,FIAT,BWM,1
+make,FIAT,Buck,1
+make,FIAT,Ford,1
+make,FIAT,Nissan,1
+make,FIAT,Peugeot,1
+make,FIAT,Skoda,1
+make,FIAT,Volkswagen,1
+make,FIAT,Yiqi,1
+make,Ford,Cadillac,1
+make,Ford,Changan,1
+make,Ford,FIAT,1
+make,Ford,Honda,1
+make,Ford,MAZDA,1
+make,GAC,Haima,1
+make,Geely,Benz,1
+make,Geely,Buck,1
+make,Geely,Honda,1
+make,Geely,MAZDA,1
+make,Geely,Mitsubishi,1
+make,Geely,Qoros,1
+make,Geely,Roewe,1
+make,Geely,Toyota,1
+make,GreatWall,Buck,1
+make,GreatWall,Citroen,1
+make,GreatWall,Dongfengfengdu,1
+make,GreatWall,Hyundai ,1
+make,GreatWall,Lifan,1
+make,GreatWall,Mitsubishi,1
+make,GreatWall,Skoda,1
+make,GreatWall,Suzuki,1
+make,GreatWall,Toyota,1
+make,GreatWall,Volkswagen,1
+make,Guangqichuanqi,Hyundai ,1
+make,Haima,Peugeot,1
+make,Haval,Benz,1
+make,Haval,Honda,1
+make,Haval,Hyundai ,1
+make,Honda,Benz,1
+make,Honda,Buck,1
+make,Honda,Changan,1
+make,Honda,DS,1
+make,Honda,Lexus,1
+make,Honda,Nissan,1
+make,Honda,Toyota,1
+make,Huatai,Hyundai ,1
+make,Huatai,MAZDA,1
+make,Hyundai ,BWM,1
+make,Hyundai ,Roewe,1
+make,Hyundai ,Skoda,1
+make,Infiniti,Audi,1
+make,Infiniti,Benz,1
+make,Infiniti,Besturn,1
+make,Infiniti,Honda,1
+make,Infiniti,Qoros,1
+make,Infiniti,Volvo,1
+make,Jaguar,BWM,1
+make,Jaguar,Lexus,1
+make,Jeep,Benz,1
+make,Jeep,Skoda,1
+make,Jeep,Volvo,1
+make,Jianghuai,BWM,1
+make,Jianghuai,Geely,1
+make,Jianghuai,LAND-ROVER,1
+make,Jianghuai,MAZDA,1
+make,Jianghuai,Renault,1
+make,Jianghuai,Toyota,1
+make,Jianghuai,Zhonghua,1
+make,Jonway,Haima,1
+make,Jonway,Volkswagen,1
+make,KIA,Benz,1
+make,KIA,Haima,1
+make,KIA,MINI,1
+make,KIA,Opel,1
+make,KIA,Renault,1
+make,KIA,Zhonghua,1
+make,Karry,Shangqidatong,1
+make,LAND-ROVER,Honda,1
+make,LAND-ROVER,Hyundai ,1
+make,Lexus,Audi,1
+make,Lexus,BWM,1
+make,Lexus,Buck,1
+make,Lexus,Cadillac,1
+make,Lexus,DS,1
+make,Lexus,Hyundai ,1
+make,Lexus,Toyota,1
+make,Lifan,Buck,1
+make,Lifan,Chevy,1
+make,Lifan,Geely,1
+make,Lifan,Hyundai ,1
+make,Lifan,Skoda,1
+make,Lifan,Yiqi,1
+make,Lotus,MAZDA,1
+make,Lufeng,Buck,1
+make,MAZDA,BWM,1
+make,MAZDA,Benz,1
+make,MAZDA,Buck,1
+make,MAZDA,Skoda,1
+make,MG,BAW,1
+make,MG,Jianghuai,1
+make,MG,Lexus,1
+make,MG,Renault,1
+make,MG,Toyota,1
+make,MG,Volvo,1
+make,MG,Zhonghua,1
+make,MINI,Buck,1
+make,Mitsubishi,Cadillac,1
+make,Mitsubishi,KIA,1
+make,Mitsubishi,Renault,1
+make,Mitsubishi,Skoda,1
+make,Mitsubishi,Volvo,1
+make,Nissan,Benz,1
+make,Nissan,Changan,1
+make,Nissan,Chevy,1
+make,Nissan,FIAT,1
+make,Nissan,Honda,1
+make,Nissan,Hyundai ,1
+make,Nissan,Venucia,1
+make,Nissan,Wuling,1
+make,Opel,BWM,1
+make,Opel,Benz,1
+make,Opel,Hyundai ,1
+make,Opel,MAZDA,1
+make,Peugeot,Benz,1
+make,Peugeot,Buck,1
+make,Peugeot,Cadillac,1
+make,Peugeot,Citroen,1
+make,Peugeot,Honda,1
+make,Peugeot,Jianghuai,1
+make,Peugeot,Lexus,1
+make,Peugeot,Skoda,1
+make,Peugeot,Yiqi,1
+make,Peugeot,Zhonghua,1
+make,Porsche,Ford,1
+make,Porsche,Honda,1
+make,Porsche,Hyundai ,1
+make,Porsche,Zhonghua,1
+make,Qoros,Skoda,1
+make,Renault,BWM,1
+make,Renault,Buck,1
+make,Renault,Honda,1
+make,Renault,Hyundai ,1
+make,Renault,Roewe,1
+make,Renault,Venucia,1
+make,Roewe,Hyundai ,1
+make,Roewe,Renault,1
+make,Roewe,Volvo,1
+make,Ruiqi,Citroen,1
+make,Ruiqi,Haima,1
+make,Ruiqi,Honda,1
+make,Ruiqi,Jianghuai,1
+make,SAAB,BWM,1
+make,SAAB,Benz,1
+make,Shangqidatong,Jinbei,1
+make,Skoda,Cadillac,1
+make,Skoda,GreatWall,1
+make,Skoda,Volvo,1
+make,Subaru,Honda,1
+make,Subaru,Skoda,1
+make,Suzuki,GreatWall,1
+make,Suzuki,Haima,1
+make,Suzuki,Lexus,1
+make,Suzuki,Peugeot,1
+make,Toyota,BWM,1
+make,Toyota,Buck,1
+make,Toyota,Changan,1
+make,Toyota,Haval,1
+make,Toyota,KIA,1
+make,Toyota,LAND-ROVER,1
+make,Toyota,MAZDA,1
+make,Toyota,Mitsubishi,1
+make,Toyota,Renault,1
+make,Venucia,Chrey,1
+make,Venucia,MAZDA,1
+make,Volkswagen,Baojun,1
+make,Volkswagen,Citroen,1
+make,Volkswagen,Dongfengfengshen,1
+make,Volkswagen,FIAT,1
+make,Volkswagen,Ford,1
+make,Volkswagen,MAZDA,1
+make,Volkswagen,Mitsubishi,1
+make,Volkswagen,Skoda,1
+make,Volvo,Qoros,1
+make,Wealeak,Dongfengfengxing,1
+make,Wealeak,Jianghuai,1
+make,Wuling,LAND-ROVER,1
+make,Yiqi,Buck,1
+make,Yiqi,Chrey,1
+make,Yiqi,Everus,1
+make,Yiqi,KIA,1
+make,Yiqi,MINI,1
+make,Yiqi,Toyota,1
+make,Zhonghua,BWM,1
+make,Zhonghua,Jaguar,1
+make,Zhonghua,KIA,1
+make,Zhonghua,Roewe,1
+make,Zhonghua,Subaru,1
+make,Zoyte,Jianghuai,1
+make,Zxauto,Jeep,1
+make,smart,KIA,1
+make,smart,MAZDA,1
+make,smart,Opel,1

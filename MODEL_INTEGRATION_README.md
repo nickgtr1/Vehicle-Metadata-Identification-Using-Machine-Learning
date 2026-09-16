@@ -1,5 +1,7 @@
 # 36127 Stage 2 Baseline Integration
 
+The trained make/body version and its local demo are documented in [Make and body-type transfer baselines](docs/WEB_TRANSFER.md). The historical HSV baseline below remains available as a separate interface example.
+
 This contribution connects persisted Stage 1 vehicle boxes to a Stage 2
 attribute-output pipeline without downloading data or model weights.
 
