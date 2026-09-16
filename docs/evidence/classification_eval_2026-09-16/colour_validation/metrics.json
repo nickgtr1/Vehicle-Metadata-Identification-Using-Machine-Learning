@@ -1,0 +1,307 @@
+{
+  "schema": "36127.unified_classification_evaluation/v1",
+  "generated_utc": "2026-09-16T12:31:45.502778+00:00",
+  "task": "colour",
+  "split": "validation",
+  "source": "colour ResNet-18 pilot saved validation predictions (outputs/2026-09-11_colour_transfer)",
+  "notes": "R4 regression round. Source experiment seed=36127. GPU not used.",
+  "classes": [
+    "black",
+    "blue",
+    "brown",
+    "champagne",
+    "green",
+    "purple",
+    "red",
+    "silver",
+    "white",
+    "yellow"
+  ],
+  "class_count": 10,
+  "display_classes": [
+    "black",
+    "blue",
+    "brown",
+    "champagne",
+    "green",
+    "purple",
+    "red",
+    "silver",
+    "white",
+    "yellow"
+  ],
+  "label_normalisation": "none",
+  "policy": {
+    "class_list": "fixed by the caller and saved in declared order",
+    "label_normalisation": "raw labels are compared unchanged unless an adapter is requested explicitly; the same adapter is applied to the class list, the target column and the prediction column, and any many-to-one collapse aborts the run instead of merging classes",
+    "zero_division": "zero_division=0 (undefined precision/recall/F1 become 0.0)",
+    "macro": "primary macro F1 averages over every declared class, including classes with zero support; macro_f1_excluding_zero_support is reported separately and is not interchangeable",
+    "unusable_rows": "abort unless --allow-unknown-labels is given; excluded rows are always written out",
+    "official_test": "a split name requires --allow-official-test when, ignoring case and separators, it is one of: test, tests, testing, officialtest, testset, testdata, finaltest, holdout, holdouts, holdoutset",
+    "confusion_counts": "counts must be integers; integral floats such as 1.0 are accepted, anything fractional, negative, non-finite, boolean, textual or out of int64 range is refused",
+    "class_indices": "class mapping indices must be JSON integers; floats, booleans and strings are refused",
+    "expected_rows": "checked against the row count in prediction mode and against the matrix total in aggregate mode"
+  },
+  "inputs": {
+    "predictions_path": "<project>/outputs/2026-09-11_colour_transfer/validation_predictions.csv",
+    "predictions_sha256": "21754c56d4360ad197a184d3853411a494fdbaf9ddccf1f1d620e3b7a4603d82",
+    "class_mapping_path": "<project>/outputs/2026-09-11_colour_transfer/class_to_idx.json",
+    "class_mapping_sha256": "d495bb78c6105b029f436f8c19038a02ca8bc19218700512eede462cc0e4cec8",
+    "input_mode": "row_level_predictions",
+    "score_column": "uncalibrated_score",
+    "score_semantics": "uncalibrated model score as supplied; not used by any metric"
+  },
+  "environment": {
+    "python": "3.12.14",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "processor": "Intel64 Family 6 Model 154 Stepping 3, GenuineIntel",
+    "device": "unused",
+    "cuda_available": true,
+    "seed": "not_applicable",
+    "packages": {
+      "numpy": "2.5.2",
+      "pandas": "3.0.5",
+      "scikit-learn": "1.9.0",
+      "scipy": "1.18.1"
+    }
+  },
+  "counts": {
+    "rows_scored": 386,
+    "correct": 280,
+    "rows_excluded": 0
+  },
+  "accuracy": 0.7253886010362695,
+  "macro_f1": 0.7299082471403191,
+  "macro_f1_excluding_zero_support": 0.7299082471403191,
+  "macro_precision": 0.7643466608857694,
+  "macro_recall": 0.7268382352941176,
+  "weighted_f1": 0.7264826819937054,
+  "per_class": {
+    "black": {
+      "precision": 0.6410256410256411,
+      "recall": 0.625,
+      "f1": 0.6329113924050633,
+      "support": 40,
+      "predicted": 39
+    },
+    "blue": {
+      "precision": 0.7333333333333333,
+      "recall": 0.825,
+      "f1": 0.7764705882352941,
+      "support": 40,
+      "predicted": 45
+    },
+    "brown": {
+      "precision": 0.47297297297297297,
+      "recall": 0.875,
+      "f1": 0.6140350877192983,
+      "support": 40,
+      "predicted": 74
+    },
+    "champagne": {
+      "precision": 0.7777777777777778,
+      "recall": 0.525,
+      "f1": 0.6268656716417911,
+      "support": 40,
+      "predicted": 27
+    },
+    "green": {
+      "precision": 0.8888888888888888,
+      "recall": 0.7058823529411765,
+      "f1": 0.7868852459016393,
+      "support": 34,
+      "predicted": 27
+    },
+    "purple": {
+      "precision": 0.896551724137931,
+      "recall": 0.8125,
+      "f1": 0.8524590163934426,
+      "support": 32,
+      "predicted": 29
+    },
+    "red": {
+      "precision": 0.8095238095238095,
+      "recall": 0.85,
+      "f1": 0.8292682926829268,
+      "support": 40,
+      "predicted": 42
+    },
+    "silver": {
+      "precision": 0.6097560975609756,
+      "recall": 0.625,
+      "f1": 0.6172839506172839,
+      "support": 40,
+      "predicted": 41
+    },
+    "white": {
+      "precision": 0.95,
+      "recall": 0.95,
+      "f1": 0.95,
+      "support": 40,
+      "predicted": 40
+    },
+    "yellow": {
+      "precision": 0.8636363636363636,
+      "recall": 0.475,
+      "f1": 0.6129032258064516,
+      "support": 40,
+      "predicted": 22
+    }
+  },
+  "classes_with_zero_support": [],
+  "zero_support_class_count": 0,
+  "classes_never_predicted": [],
+  "confusion_matrix": [
+    [
+      25,
+      1,
+      8,
+      0,
+      1,
+      2,
+      2,
+      1,
+      0,
+      0
+    ],
+    [
+      3,
+      33,
+      2,
+      0,
+      0,
+      0,
+      0,
+      2,
+      0,
+      0
+    ],
+    [
+      1,
+      1,
+      35,
+      0,
+      1,
+      0,
+      1,
+      1,
+      0,
+      0
+    ],
+    [
+      2,
+      1,
+      7,
+      21,
+      0,
+      0,
+      0,
+      7,
+      0,
+      2
+    ],
+    [
+      3,
+      2,
+      4,
+      0,
+      24,
+      0,
+      0,
+      1,
+      0,
+      0
+    ],
+    [
+      2,
+      0,
+      3,
+      0,
+      0,
+      26,
+      0,
+      1,
+      0,
+      0
+    ],
+    [
+      1,
+      0,
+      4,
+      0,
+      0,
+      1,
+      34,
+      0,
+      0,
+      0
+    ],
+    [
+      2,
+      5,
+      3,
+      2,
+      0,
+      0,
+      1,
+      25,
+      1,
+      1
+    ],
+    [
+      0,
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      1,
+      38,
+      0
+    ],
+    [
+      0,
+      2,
+      8,
+      3,
+      1,
+      0,
+      4,
+      2,
+      1,
+      19
+    ]
+  ],
+  "matrix_cross_check": {
+    "performed": true,
+    "basis": "two representations of the same rows: sklearn scores computed from the row-level labels versus the closed-form reconstruction from the aggregated confusion matrix",
+    "max_abs_difference": 1.1102230246251565e-16,
+    "tolerance": 1e-12,
+    "passed": true
+  },
+  "arithmetic_check": {
+    "basis": "exact rational arithmetic (fractions.Fraction), independent of the numpy path",
+    "compared_values": 35,
+    "max_abs_difference": 1.1102230246251565e-16,
+    "tolerance": 1e-12,
+    "passed": true,
+    "worst_key": "per_class.blue.f1"
+  },
+  "code_hashes": {
+    "evaluation.py": "cbf08b1d47cb3af21bd34bdb748a435f67dc2975d983227f38af0aeeffe0ac4d",
+    "evaluate_classification.py": "7205bfbd37d7df7a1b0041ad37317bffdfecba43ae050f2260f86accc374377f"
+  },
+  "limitations": [
+    "Metrics describe the supplied split only; they are not official test scores unless the split says so.",
+    "Uncalibrated scores are recorded but never used by the metrics.",
+    "Macro F1 treats every declared class equally, including classes with tiny support."
+  ],
+  "public_export_note": "Execution command omitted from the published copy to avoid personal absolute paths; the reproduction commands are in docs/CLASSIFICATION_EVALUATION.md.",
+  "sanitised_for_publication": true,
+  "sanitisation": {
+    "absolute_paths_replaced_with": "<project>",
+    "command_field_removed": true,
+    "hashes_and_numbers_untouched": true
+  }
+}
