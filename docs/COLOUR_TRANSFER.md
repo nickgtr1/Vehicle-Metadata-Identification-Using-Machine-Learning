@@ -57,10 +57,11 @@ python scripts/compcars_archive_integrity.py --archives-root "$archivesRoot" --o
 python scripts/audit_local_compcars.py --archives-root "$archivesRoot" --integrity outputs/integrity_01 --output outputs/audit_01
 ```
 
-The audit intentionally exits 2 when the known 721 missing-body-label mismatches
-are present. Read its audit_summary.json. Do not ignore unrelated failures. The
-pilot script independently allows only the known body-label category, excludes
-official type 0 and checks every remaining body label; other errors must pass.
+The original audit reported the 721 unavailable body labels as mismatches.
+The revised audit accepts a missing target for official type 0, while still
+rejecting an incorrect named label or missing metadata. Read audit_summary.json
+and resolve other failures before training. Body training excludes type 0 and
+checks every remaining body label independently.
 
 ```powershell
 python scripts/train_real_compcars_pilots.py --archives-root "$archivesRoot" --audit outputs/audit_01 --output outputs/pilots_01 --device cuda

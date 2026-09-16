@@ -15,6 +15,14 @@ from vehicle_id.attributes.modelling import save_json, sha256, metadata
 
 COLOURS={-1:'unrecognized',0:'black',1:'white',2:'red',3:'yellow',4:'blue',5:'green',6:'purple',7:'brown',8:'champagne',9:'silver'}
 
+
+def body_label_matches(identifier, label, names):
+    # Official type 0 is unavailable; it must not select the last named type.
+    if identifier == 0:
+        return bool(pd.isna(label))
+    return bool(1 <= identifier <= len(names) and pd.notna(label)
+                and names[identifier - 1] == label)
+
 def mapped_frame(path,kind):
     df=pd.read_csv(path)
     df['source_image_path']=df.image_path
@@ -52,15 +60,17 @@ def inspect_image(args):
 
 def main():
     p=argparse.ArgumentParser(); p.add_argument('--archives-root',required=True); p.add_argument('--integrity',required=True); p.add_argument('--output',required=True)
+    p.add_argument('--kinds',nargs='+',choices=['web','surveillance'],default=['web','surveillance'])
     args=p.parse_args(); root=Path(args.archives_root); integrity=Path(args.integrity); out=Path(args.output)
     out.mkdir(parents=True,exist_ok=False)
     repo=Path(__file__).resolve().parents[1]
     proofs=json.loads((integrity/'integrity_summary.json').read_text())
-    if set(proofs)!={'web','surveillance'} or not all(x['crc_matches_archive'] for x in proofs.values()):
-        raise ValueError('Both full extraction CRC checks must pass first')
+    if not set(args.kinds)<=set(proofs) or not all(proofs[k]['crc_matches_archive'] for k in args.kinds):
+        raise ValueError('Every selected extraction CRC check must pass first')
     save_json(out/'run_metadata.json',metadata({'operation':'real_image_and_label_audit','seed':36127}))
     summaries={}
     for kind,filename in [('web','compcars_classification.csv'),('surveillance','compcars_surveillance_classification.csv')]:
+        if kind not in args.kinds: continue
         source=repo/'data/manifests'/filename; df=mapped_frame(source,kind)
         base=root/('data/data' if kind=='web' else 'sv_data/sv_data')
         splits={s:set((base/('train_test_split/classification/'+s+'.txt' if kind=='web' else s+'_surveillance.txt')).read_text().splitlines()) for s in ['train','test']}
@@ -80,10 +90,10 @@ def main():
             else:
                 label=(base/'label'/Path(key).with_suffix('.txt')).read_text().splitlines()
                 expected=tuple(map(int,label[2].split()))
-                body_id=attrs.get(int(row['model_id']),0)
+                body_id=attrs.get(int(row['model_id']),-1)
                 if expected!=ast.literal_eval(row['bbox']): label_mismatch.append({'key':key,'field':'bbox'})
                 if makes[int(row['make_id'])-1]!=row['make_name']: label_mismatch.append({'key':key,'field':'make'})
-                if not body_id or types[body_id-1]!=row['car_type_name']: label_mismatch.append({'key':key,'field':'body_type'})
+                if not body_label_matches(body_id,row['car_type_name'],types): label_mismatch.append({'key':key,'field':'body_type'})
         checked=pd.read_csv(integrity/f'{kind}_file_integrity.csv',usecols=['name','sha256','status'])
         hashes=checked.set_index('name').sha256.to_dict()
         prefix='data/' if kind=='web' else 'sv_data/'

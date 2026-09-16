@@ -1,0 +1,7 @@
+{
+  "training_completed": true,
+  "training_seconds": 218.66104489999998,
+  "peak_cuda_reserved_MiB": 480.0,
+  "official_test_evaluated": false,
+  "verification_pending": false
+}

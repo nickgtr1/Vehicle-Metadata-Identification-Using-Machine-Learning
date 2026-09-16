@@ -1,0 +1,23 @@
+{
+  "official_classification_rows": 30955,
+  "classification_manifest_rows": 30925,
+  "full_manifest_rows": 136726,
+  "split_coverage": {
+    "train": {
+      "official": 16016,
+      "manifest": 16003,
+      "missing": 13,
+      "extra": 0
+    },
+    "test": {
+      "official": 14939,
+      "manifest": 14922,
+      "missing": 17,
+      "extra": 0
+    }
+  },
+  "all_missing_have_unknown_year": true,
+  "all_missing_files_present": true,
+  "all_missing_fail_existing_regex": true,
+  "impact": "The existing manifest audit verified included-row consistency, not complete coverage of official classification lists. Frozen v0.1 results remain measured on the recorded smaller manifest; no rows, splits or checkpoints were changed."
+}

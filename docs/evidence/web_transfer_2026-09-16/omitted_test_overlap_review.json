@@ -1,0 +1,16 @@
+{
+  "additional_official_test_images_checked": 17,
+  "method": "Compare SHA-256 from completed full extraction integrity index with frozen v0.1 fit/validation assignments",
+  "exact_hash_overlaps": {
+    "make": {
+      "train": 0,
+      "validation": 0
+    },
+    "body_type": {
+      "train": 0,
+      "validation": 0
+    }
+  },
+  "official_test_model_evaluation_performed": false,
+  "near_duplicate_or_identity_check": false
+}
