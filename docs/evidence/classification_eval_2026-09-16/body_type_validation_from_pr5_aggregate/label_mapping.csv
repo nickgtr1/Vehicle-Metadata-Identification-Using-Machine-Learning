@@ -1,0 +1,13 @@
+class_id,raw_label,display_label,changed
+0,MPV,MPV,False
+1,SUV,SUV,False
+2,convertible,convertible,False
+3,crossover,crossover,False
+4,estate,estate,False
+5,fastback,fastback,False
+6,hardtop convertible,hardtop convertible,False
+7,hatchback,hatchback,False
+8,minibus,minibus,False
+9,pickup,pickup,False
+10,sedan,sedan,False
+11,sports,sports,False
