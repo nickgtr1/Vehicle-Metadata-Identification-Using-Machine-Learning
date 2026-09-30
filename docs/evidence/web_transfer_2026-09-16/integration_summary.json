@@ -1,0 +1,25 @@
+{
+  "checks": {
+    "one_vehicle_profile_and_json": true,
+    "multiple_supplied_boxes": true,
+    "no_detections": true,
+    "unavailable_predictor": true,
+    "invalid_box": true,
+    "wrong_checkpoint_task": true,
+    "invalid_confidence": true
+  },
+  "actual_trained_checkpoints": {
+    "make": "943b45921e0fc264b616a888f92b339541e891789c462a843513de8ecbcf1054",
+    "body_type": "d402cad1091393f0ebe743637eaf2a901783210fcb541eac3d56fe7f4bf5be93"
+  },
+  "synthetic_weights_used": false,
+  "live_detector_examples": 5,
+  "detections_per_example": [
+    1,
+    3,
+    1,
+    12,
+    5
+  ],
+  "scope": "Integration demonstration; not an end-to-end accuracy benchmark. Images and per-image records remain local."
+}

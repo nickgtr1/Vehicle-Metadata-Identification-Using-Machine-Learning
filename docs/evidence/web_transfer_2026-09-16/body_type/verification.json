@@ -1,0 +1,7 @@
+{
+  "fresh_process_cpu_reload_passed": true,
+  "predictions_csv_metrics_verified": true,
+  "selected_image_hashes_rechecked": 3894,
+  "checkpoint_sha256": "d402cad1091393f0ebe743637eaf2a901783210fcb541eac3d56fe7f4bf5be93",
+  "official_test_evaluated": false
+}
