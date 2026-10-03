@@ -1,0 +1,16 @@
+{
+  "make": {
+    "label": "pilot-level secondary comparison, capped PR #5 checkpoint, not the formal result",
+    "rows": 14922,
+    "accuracy": 0.4976544699101997,
+    "macro_f1": 0.5405760997430916,
+    "weighted_f1": 0.49912902660068525
+  },
+  "body_type": {
+    "label": "pilot-level secondary comparison, capped PR #5 checkpoint, not the formal result",
+    "rows": 14570,
+    "accuracy": 0.7299245024021963,
+    "macro_f1": 0.6454775233762429,
+    "weighted_f1": 0.7371510129545483
+  }
+}
