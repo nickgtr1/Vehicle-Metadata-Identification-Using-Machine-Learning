@@ -1,24 +1,74 @@
-# Aggregate results package — draft, not published
+# Aggregate results package
 
-3 October 2026 · prepared at the request of the 3 October three-attribute audit ·
-**publication requires separate authorisation and has not been requested**
+3 October 2026 · **published** · this revision follows the 3 October review of the
+post-audit response
+
+## Publication status
+
+| Item | Value |
+|---|---|
+| Repository | `nickgtr1/Vehicle-Metadata-Identification-Using-Machine-Learning` |
+| Path | `docs/evidence/three_attribute_test_2026-10-03/` |
+| Pull request | https://github.com/nickgtr1/Vehicle-Metadata-Identification-Using-Machine-Learning/pull/9 |
+| Branch | `yuchen-three-attribute-results` |
+| First published commit | `c75d9e3dbecbac99752ccd81093070ff8acb2f8e` (3 October 2026, +7,234 lines, 7 files) |
+| Remote-versus-local check | every published file is byte-identical to the reviewed local package; receipt archived with the full commit SHA, per-file blob hashes and the comparison output |
+
+An earlier version of this README said that publication had not been requested. That
+was accurate when it was written and is superseded by this revision. Hashing is not a
+reason to keep an obsolete status statement in a living document; the earlier
+commits and the original local evidence are preserved unchanged.
+
+## Audit status, stated precisely
+
+* **Numerical and binding checks: pass.** An independent audit recomputed accuracy,
+  macro F1 and weighted F1 from the saved confusion matrices (maximum difference
+  1.1 × 10⁻¹⁶) and verified that the checkpoints, protocol records, membership
+  sources and membership tables match their recorded hashes.
+* **Approval and protocol provenance: qualified.** The make and body-type test
+  subsets were scored twice: once with the capped pilots, published here as an
+  explicitly labelled secondary comparison, and once formally with the uncapped
+  models. The project owner ratified that as an approved protocol amendment
+  **retrospectively, after both runs had happened**; the primary dated messages have
+  not yet been exported into the evidence set, so the position is properly described
+  as "the owner reports approval" rather than as independently established
+  pre-registration. The owner has confirmed that the approvals given in the working
+  thread are the authoritative instruction and has declined to provide a separate
+  export, so this wording is not provisional; the thread is the accessible original
+  reference.
+* The audit that recommended preparing this package **did not pre-approve this
+  package**. The package was prepared afterwards and reviewed separately.
 
 ## What this package contains
 
 | File | Content |
 |---|---|
-| `results.json` | the three formal results: counts, accuracy, macro and weighted F1, macro precision/recall, per-class precision/recall/F1/support/predicted, the confusion matrix in the declared class order, and the two internal consistency checks |
-| `validation_seeds.json` | validation results for every seed, with the note that make/body share one holdout while the colour seeds drew different partitions |
-| `secondary_pilot_level.json` | the two capped-pilot test scores, explicitly labelled as secondary comparisons, not the formal result |
-| `populations.json` | what each number is measured on, and the exclusions, including the route-1 shortfalls and the unavailable body labels |
-| `hashes.json` | evaluation entry point, freeze records, checkpoints, membership sources and membership tables |
-| `commands.md` | portable command templates for intake, protocol emission, freezing and the declared run |
+| `results.json` | per-task counts, accuracy, macro and weighted F1, macro precision and recall, per-class precision/recall/F1/support/predicted, the confusion matrix in the declared class order, and the internal consistency checks |
+| `validation_seeds.json` | every seed's validation result, with the note that make and body type share one holdout while the colour seeds drew different partitions |
+| `secondary_pilot_level.json` | the capped-pilot test scores, labelled as secondary comparisons |
+| `populations.json` | what each number is measured on, and every exclusion |
+| `hashes.json` | evaluation entry point, protocol records, checkpoints, membership sources and tables |
+| `commands.md` | intake, draft emission, freezing and the declared run, as single-line commands with a per-task value table |
 
-## What this package deliberately excludes
+## What this package excludes
 
-Model weights; images; image identifiers; row-level predictions; absolute
-filesystem paths; local environment records; approval records, chat transcripts and
-other private correspondence. Nothing here identifies an individual image.
+Model weights; images; image identifiers; row-level predictions; absolute filesystem
+paths; environment records; approval records, chat transcripts and other private
+correspondence.
+
+## Populations and shortfalls
+
+| Attribute | Measured population | Test shortfall | Training shortfall |
+|---|---|---|---|
+| colour | route-1 subset of the official CompCars **surveillance** test split | 13,323 of 13,333 keys | 31,118 of 31,148 official train keys |
+| make | route-1 subset of the official CompCars **web** classification test split | 14,922 of 14,939 keys | 16,001 fit and validation rows from 16,003 manifest train rows, and the official train list holds 16,016 keys, so **13 official train keys are absent** |
+| body type | as make, minus unavailable labels | 14,570 rows after the 352 rows whose official body type is 0 | 15,631 rows from the same 16,003 manifest rows, with the same 13-key official-train shortfall |
+
+These are declared subsets, not complete official test sets. The make and
+body-type training figures reconcile as: 16,003 manifest train rows, minus 1 row
+excluded as a duplicate of test content or as a conflicting label, minus 1 duplicate
+representative of an identical-byte group, giving 16,001; and for body type, 16,003
+minus 369 rows whose label is unavailable, minus 3 exclusions, giving 15,631.
 
 ## Authorship
 
@@ -26,47 +76,32 @@ Colour: Yuchen's dataset, predictor, pipeline, split logic and colour-transfer
 recipe, with the uncapped colour runs and the evaluation gating produced by this
 workstream. Make and body type: Yuxiang's runner, training recipe and capped pilots
 from PR #5, with the uncapped training runs and two documented local adaptations
-(a seed option and per-epoch CPU validation) produced by this workstream. Evidence
-gating, protocol design and this package: the pre-test workstream.
+(a seed option and per-epoch CPU validation) produced by this workstream. Protocol
+design, evidence gating and this package: the pre-test workstream.
 
 ## Disclosures that must be published with the numbers
 
 1. **Two exposures for make and body type.** Those test subsets were scored once
-   with the capped pilots (pre-declared as a pilot-level comparison) and once
-   formally with the uncapped models. The formal results must not be described as
-   the first or only test exposure; the pilot-level scores above are secondary.
-   The selection rule was fixed before both exposures.
-2. **Colour is independently audited; make and body type are not yet.**
-3. **Declared subsets, not complete official test sets**: colour 13,323 of 13,333;
-   make 14,922 of 14,939; body type 14,570 after 17 absent keys and 352 unavailable
-   labels. Training manifest shortfalls are listed in `populations.json`.
-4. **No combined score.** The attributes use different datasets and class counts;
-   any three-attribute average would be meaningless and none is provided.
-5. Results are **image level**, not vehicle-disjoint; near-duplicate and
-   same-physical-vehicle images were not identified.
-6. Scores are **uncalibrated**; no abstention threshold has been validated.
-7. The data are CompCars imagery, **not NSW Police material**, and this is not an
+   with the capped pilots and once formally with the uncapped models. The formal
+   results are not the first or only exposure, the amendment was retrospective, and
+   the selection rule was fixed before both runs.
+2. **Colour has been independently audited; make and body type have been reviewed
+   as part of the same hand-back but have not had a separate independent audit.**
+3. Declared subsets, not complete official test sets, as tabulated above.
+4. Results are **image level**, not vehicle-disjoint: near-duplicate images and
+   images of the same physical vehicle were not identified.
+5. Scores are **uncalibrated**; no abstention threshold has been validated.
+6. The data are CompCars imagery, **not NSW Police material**, and this is not an
    end-to-end detector-to-attributes measurement.
+7. There is **no combined score**, and none should be constructed.
 
 ## Suggested result sentence
 
 > The validation-selected attribute checkpoints achieved 91.58% accuracy and macro
-> F1 of 0.8459 for colour (13,323 images), 72.00% accuracy and macro F1 of 0.6796
-> for make (14,922 images) and 85.72% accuracy and macro F1 of 0.7260 for body type
+> F1 of 0.8459 for colour (13,323 images), 72.00% accuracy and macro F1 of 0.6796 for
+> make (14,922 images) and 85.72% accuracy and macro F1 of 0.7260 for body type
 > (14,570 images), each on the predeclared route-1 subset of the corresponding
-> official CompCars test split, with model selection using validation data only.
-> The make and body-type subsets were also scored once with the earlier capped
-> pilots, a pilot-level comparison retained as secondary evidence. Results are
-> image-level and do not establish end-to-end or NSW Police performance.
-
-## 中文摘要
-
-这是按 10 月 3 日审计要求准备的**聚合包草稿**（尚未发布、也未申请发布授权）。包含：
-三属性的正式指标与逐类支持数、混淆矩阵；各种子的验证结果；两个截断 pilot 的**次级**
-对照分数；人群口径与排除项；哈希清单；以及可移植的命令模板。
-
-**不含**：权重、图像、图像标识、逐行预测、本机绝对路径、环境记录、审批与聊天等私人
-材料。**必须随数字披露**：① make/body 的 test 子集被计分两次（pilot 级在先、正式在后，
-不得称为"首次/唯一一次"）；② colour 已独立审计、make/body 尚未；③ 是 route-1 声明子集
-而非完整官方测试集；④ 不提供三属性合并总分；⑤ 图像级、非车辆级不重复；⑥ 分数未校准；
-⑦ 非警务数据、非端到端测量。
+> official CompCars test split, with model selection using validation data only. The
+> make and body-type subsets were also scored once with the earlier capped pilots, a
+> pilot-level comparison retained as secondary evidence. Results are image-level and
+> do not establish end-to-end or NSW Police performance.
