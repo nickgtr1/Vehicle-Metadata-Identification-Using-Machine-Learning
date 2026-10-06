@@ -1,0 +1,20 @@
+{
+  "script_sha256": "bfea5bead075016a74fcbff43944a67bed6ea5ca16f53269442106d5f091e521",
+  "runs": {
+    "make": {
+      "checkpoint_sha256": "943b45921e0fc264b616a888f92b339541e891789c462a843513de8ecbcf1054",
+      "metrics_sha256": "abc2b82623e38ef5b85272085a4e5de19bb3cf4fe92f6193d6d2385f31f2ce29"
+    },
+    "body_type": {
+      "checkpoint_sha256": "d402cad1091393f0ebe743637eaf2a901783210fcb541eac3d56fe7f4bf5be93",
+      "metrics_sha256": "98f3f1d8468b194726eee0f33ba326e15ce6327a7a86a37bed6b4a97493e2541"
+    }
+  },
+  "scope": "Coursework/team review; no journal compliance claim",
+  "transformations": [
+    "confusion matrix divided by row support for heatmap color",
+    "all-class recall sorted ascending",
+    "largest confusion counts shown; all retained in CSV"
+  ],
+  "uncertainty": "single-seed image-level validation; no independent-vehicle confidence intervals claimed"
+}
