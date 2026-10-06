@@ -10,3 +10,9 @@ venv312/
 .venv/
 outputs/
 Ultralytics/
+
+.env
+results/
+results/
+data/tuning/
+data/tuning/

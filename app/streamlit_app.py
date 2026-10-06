@@ -22,6 +22,8 @@ import streamlit as st
 import yaml
 from PIL import Image
 
+from notebook_viewer import render_notebooks_tab
+
 REPO_ROOT = Path(os.environ.get("VEHICLE_ID_REPO") or Path(__file__).resolve().parents[1])
 sys.path.insert(0, str(REPO_ROOT / "src"))
 
@@ -103,123 +105,157 @@ with st.sidebar:
     with st.expander("Attribute models", expanded=False):
         checkpoints = {a: st.text_input(f"{a} checkpoint (.pt)", placeholder="optional") for a in ATTRIBUTES}
         allow_synthetic = st.checkbox("Allow synthetic smoke-test weights", value=False)
+    with st.expander("VLM attribute fill (make / model / body type)", expanded=False):
+        use_vlm = st.checkbox("Enable", value=False)
+        vlm_mode = st.radio(
+            "Model", ["zero-shot", "tuned"], index=0, horizontal=True,
+            help="zero-shot: portable, only needs GEMINI_API_KEY. tuned: best accuracy, needs the demo "
+                 "machine's own Vertex/gcloud auth — will fail on anyone else's machine.",
+        )
     st.caption("Scores are uncalibrated softmax values. Pilot or synthetic outputs are not validated accuracy.")
 
-# ---------------------------------------------------------------- input
-in_col, prev_col = st.columns([2, 3], gap="large")
-sample_dir = REPO_ROOT / "data" / "samples"
-samples = sorted(p.name for p in sample_dir.glob("*.jpg")) if sample_dir.is_dir() else []
+# ---------------------------------------------------------------- top-level tabs
+# Notebooks tab is rendered FIRST, before anything below that can call st.stop()
+# (e.g. "no image uploaded yet"). Streamlit tabs are just layout containers, not
+# separate script runs -- the whole file still executes top to bottom once, so a
+# st.stop() anywhere would otherwise prevent a later tab's content from ever
+# appearing. Entering this tab's `with` block first guarantees it always renders,
+# regardless of what the Analyse tab does afterwards.
+analyse_tab, notebooks_tab = st.tabs(["Analyse", "Notebooks"])
 
-with in_col:
-    st.subheader("1 · Choose an image")
-    uploaded = st.file_uploader("Upload", type=["jpg", "jpeg", "png"], label_visibility="collapsed")
-    sample_choice = st.selectbox("or use a sample", ["(none)"] + samples)
-    with st.expander("Use Stage 1 boxes instead of the detector"):
-        boxes_text = st.text_area(
-            "Detections JSON",
-            height=110,
-            placeholder='{"detections": [{"bbox_xyxy": [x1, y1, x2, y2], "confidence": 0.9}]}',
-            label_visibility="collapsed",
-        )
-    run = st.button("Analyse", type="primary", width="stretch")
+with notebooks_tab:
+    render_notebooks_tab(REPO_ROOT / "notebooks" / "vlm")
 
-if uploaded is not None:
-    with tempfile.NamedTemporaryFile(delete=False, suffix=Path(uploaded.name).suffix or ".jpg") as tmp:
-        tmp.write(uploaded.getvalue())
-    image_path = Path(tmp.name)
-elif sample_choice != "(none)":
-    image_path = sample_dir / sample_choice
-else:
-    image_path = None
+with analyse_tab:
+    # ------------------------------------------------------------ input
+    in_col, prev_col = st.columns([2, 3], gap="large")
+    sample_dir = REPO_ROOT / "data" / "samples"
+    samples = sorted(p.name for p in sample_dir.glob("*.jpg")) if sample_dir.is_dir() else []
 
-with prev_col:
-    st.subheader("2 · Preview" if not run else "2 · Result")
-    if image_path is None:
-        st.info("Upload an image or pick a sample to begin.")
-        st.stop()
-    if not run:
-        st.image(Image.open(image_path), width="stretch")
-        st.stop()
-
-# ---------------------------------------------------------------- analyse
-try:
-    predictors = {a: load_predictor(p.strip(), allow_synthetic) for a, p in checkpoints.items() if p.strip()}
-    detections = parse_detections(boxes_text) if boxes_text.strip() else None
-    with st.spinner("Running pipeline..."):
-        result = analyse_vehicle_image(
-            image_path, predictors, detections=detections,
-            detector_weights=None if detections else detector_weights,
-        )
-except Exception as exc:  # pipeline raises explicit errors (missing weights, bad boxes, ...)
-    st.error(f"{type(exc).__name__}: {exc}")
-    st.stop()
-
-vehicles = result["vehicles"]
-colour_is_baseline = "colour" not in predictors
-if colour_is_baseline and vehicles:
-    cfg = load_baseline_config()["colour_baseline"]
-    with Image.open(image_path) as src:
-        rgb = src.convert("RGB")
-    for rec in vehicles:
-        est = estimate_colour(rgb.crop(tuple(rec["bbox_xyxy"])), cfg)
-        prof = rec["vehicle_profile"]
-        prof["colour"], prof["confidence"]["colour"] = est.label, est.confidence
-        prof["status"]["colour"] = f"{est.status} (HSV baseline, unvalidated)"
-
-with prev_col:
-    st.image(result["annotated_image"], width="stretch")
-
-# ---------------------------------------------------------------- results
-st.divider()
-m1, m2, m3 = st.columns(3)
-m1.metric("Vehicles found", len(vehicles))
-m2.metric("Avg detection conf.", f"{sum(v['detection_confidence'] for v in vehicles) / len(vehicles):.0%}" if vehicles else "–")
-m3.metric("Attribute models", len(predictors) or "none (colour baseline)")
-
-if not vehicles:
-    st.warning("No vehicles detected.")
-    st.stop()
-
-tab_cards, tab_table, tab_json = st.tabs(["Vehicles", "Table", "Raw JSON"])
-
-with tab_cards:
-    cols = st.columns(3)
-    for i, rec in enumerate(vehicles):
-        prof, conf = rec["vehicle_profile"], rec["vehicle_profile"]["confidence"]
-        with cols[i % 3]:
-            st.markdown(
-                f'<div class="card"><h4>{rec["vehicle_crop_id"].replace("_", " ").title()} '
-                f'<span class="badge">det {rec["detection_confidence"]:.0%}</span></h4>'
-                f'<div class="row"><span class="k">Make</span><span>{value_html(prof["make"], conf.get("make"))}</span></div>'
-                f'<div class="row"><span class="k">Body type</span><span>{value_html(prof["body_type"], conf.get("body_type"))}</span></div>'
-                f'<div class="row"><span class="k">Colour</span><span>{value_html(prof["colour"], conf.get("colour"))}'
-                f'{" <span class=badge warn>baseline</span>" if colour_is_baseline else ""}</span></div>'
-                f'<div class="row"><span class="k">Model / damage / accessories</span><span class="muted">not assessed</span></div>'
-                "</div>",
-                unsafe_allow_html=True,
+    with in_col:
+        st.subheader("1 · Choose an image")
+        uploaded = st.file_uploader("Upload", type=["jpg", "jpeg", "png"], label_visibility="collapsed")
+        sample_choice = st.selectbox("or use a sample", ["(none)"] + samples)
+        with st.expander("Use Stage 1 boxes instead of the detector"):
+            boxes_text = st.text_area(
+                "Detections JSON",
+                height=110,
+                placeholder='{"detections": [{"bbox_xyxy": [x1, y1, x2, y2], "confidence": 0.9}]}',
+                label_visibility="collapsed",
             )
+        run = st.button("Analyse", type="primary", width="stretch")
 
-rows = [
-    {
-        "id": r["vehicle_crop_id"],
-        "det_conf": round(r["detection_confidence"], 3),
-        "make": r["vehicle_profile"]["make"],
-        "body_type": r["vehicle_profile"]["body_type"],
-        "colour": r["vehicle_profile"]["colour"],
-        "make_score": r["vehicle_profile"]["confidence"].get("make"),
-        "body_score": r["vehicle_profile"]["confidence"].get("body_type"),
-        "colour_score": r["vehicle_profile"]["confidence"].get("colour"),
-        "bbox_xyxy": r["bbox_xyxy"],
-    }
-    for r in vehicles
-]
-df = pd.DataFrame(rows)
-with tab_table:
-    st.dataframe(df, width="stretch", hide_index=True)
-    st.download_button("Download CSV", df.to_csv(index=False), "vehicle_results.csv", "text/csv")
-with tab_json:
-    payload = json.dumps({"vehicles": vehicles}, indent=2)
-    st.download_button("Download JSON", payload, "vehicle_results.json", "application/json")
-    st.code(payload, language="json")
+    if uploaded is not None:
+        with tempfile.NamedTemporaryFile(delete=False, suffix=Path(uploaded.name).suffix or ".jpg") as tmp:
+            tmp.write(uploaded.getvalue())
+        image_path = Path(tmp.name)
+    elif sample_choice != "(none)":
+        image_path = sample_dir / sample_choice
+    else:
+        image_path = None
 
-st.caption(result["confidence_semantics"] + ". Colour baseline (when shown) is an unvalidated HSV heuristic.")
+    with prev_col:
+        st.subheader("2 · Preview" if not run else "2 · Result")
+        if image_path is None:
+            st.info("Upload an image or pick a sample to begin.")
+            st.stop()
+        if not run:
+            st.image(Image.open(image_path), width="stretch")
+            st.stop()
+
+    # ------------------------------------------------------------ analyse
+    try:
+        predictors = {a: load_predictor(p.strip(), allow_synthetic) for a, p in checkpoints.items() if p.strip()}
+        detections = parse_detections(boxes_text) if boxes_text.strip() else None
+        with st.spinner("Running pipeline..."):
+            result = analyse_vehicle_image(
+                image_path, predictors, detections=detections,
+                detector_weights=None if detections else detector_weights,
+            )
+    except Exception as exc:  # pipeline raises explicit errors (missing weights, bad boxes, ...)
+        st.error(f"{type(exc).__name__}: {exc}")
+        st.stop()
+
+    vehicles = result["vehicles"]
+    colour_is_baseline = "colour" not in predictors
+    if colour_is_baseline and vehicles:
+        cfg = load_baseline_config()["colour_baseline"]
+        with Image.open(image_path) as src:
+            rgb = src.convert("RGB")
+        for rec in vehicles:
+            est = estimate_colour(rgb.crop(tuple(rec["bbox_xyxy"])), cfg)
+            prof = rec["vehicle_profile"]
+            prof["colour"], prof["confidence"]["colour"] = est.label, est.confidence
+            prof["status"]["colour"] = f"{est.status} (HSV baseline, unvalidated)"
+
+    if use_vlm:
+        from vehicle_id.vlm_fallback import apply_vlm_fallback
+        with st.spinner("Running VLM attribute fill..."):
+            vehicles, vlm_error = apply_vlm_fallback(image_path, vehicles, predictors, enabled=True, mode=vlm_mode)
+        if vlm_error:
+            st.warning(f"VLM attribute fill failed for at least one vehicle: {vlm_error}")
+
+    with prev_col:
+        st.image(result["annotated_image"], width="stretch")
+
+    # ------------------------------------------------------------ results
+    st.divider()
+    m1, m2, m3 = st.columns(3)
+    m1.metric("Vehicles found", len(vehicles))
+    m2.metric("Avg detection conf.", f"{sum(v['detection_confidence'] for v in vehicles) / len(vehicles):.0%}" if vehicles else "–")
+    m3.metric("Attribute models", len(predictors) or "none (colour baseline)")
+
+    if not vehicles:
+        st.warning("No vehicles detected.")
+        st.stop()
+
+    tab_cards, tab_table, tab_json = st.tabs(["Vehicles", "Table", "Raw JSON"])
+
+    with tab_cards:
+        cols = st.columns(3)
+        for i, rec in enumerate(vehicles):
+            prof, conf = rec["vehicle_profile"], rec["vehicle_profile"]["confidence"]
+            vlm_colour_row = (
+                f'<div class="row"><span class="k">Colour (VLM)</span><span>{value_html(rec.get("vlm_colour"))}</span></div>'
+                if rec.get("vlm_colour") else ""
+            )
+            with cols[i % 3]:
+                st.markdown(
+                    f'<div class="card"><h4>{rec["vehicle_crop_id"].replace("_", " ").title()} '
+                    f'<span class="badge">det {rec["detection_confidence"]:.0%}</span></h4>'
+                    f'<div class="row"><span class="k">Make</span><span>{value_html(prof["make"], conf.get("make"))}</span></div>'
+                    f'<div class="row"><span class="k">Body type</span><span>{value_html(prof["body_type"], conf.get("body_type"))}</span></div>'
+                    f'<div class="row"><span class="k">Colour</span><span>{value_html(prof["colour"], conf.get("colour"))}'
+                    f'{" <span class=badge warn>baseline</span>" if colour_is_baseline else ""}</span></div>'
+                    f'{vlm_colour_row}'
+                    f'<div class="row"><span class="k">Model</span><span>{value_html(prof["model"])}</span></div>'
+                    f'<div class="row"><span class="k">Damage / accessories</span><span class="muted">not assessed</span></div>'
+                    "</div>",
+                    unsafe_allow_html=True,
+                )
+
+    rows = [
+        {
+            "id": r["vehicle_crop_id"],
+            "det_conf": round(r["detection_confidence"], 3),
+            "make": r["vehicle_profile"]["make"],
+            "model": r["vehicle_profile"]["model"],
+            "body_type": r["vehicle_profile"]["body_type"],
+            "colour": r["vehicle_profile"]["colour"],
+            "make_score": r["vehicle_profile"]["confidence"].get("make"),
+            "body_score": r["vehicle_profile"]["confidence"].get("body_type"),
+            "colour_score": r["vehicle_profile"]["confidence"].get("colour"),
+            "bbox_xyxy": r["bbox_xyxy"],
+        }
+        for r in vehicles
+    ]
+    df = pd.DataFrame(rows)
+    with tab_table:
+        st.dataframe(df, width="stretch", hide_index=True)
+        st.download_button("Download CSV", df.to_csv(index=False), "vehicle_results.csv", "text/csv")
+    with tab_json:
+        payload = json.dumps({"vehicles": vehicles}, indent=2)
+        st.download_button("Download JSON", payload, "vehicle_results.json", "application/json")
+        st.code(payload, language="json")
+
+    st.caption(result["confidence_semantics"] + ". Colour baseline (when shown) is an unvalidated HSV heuristic.")
