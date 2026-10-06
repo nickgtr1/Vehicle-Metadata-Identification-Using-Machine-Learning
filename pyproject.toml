@@ -1,0 +1,13 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "vehicle-id"
+version = "0.2.0"
+description = "36127 vehicle attribute modelling and pipeline"
+requires-python = ">=3.10"
+dependencies = ["numpy", "pandas", "Pillow", "opencv-python", "torch", "torchvision", "scikit-learn", "scipy", "PyYAML"]
+
+[tool.setuptools.packages.find]
+where = ["src"]

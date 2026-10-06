@@ -1,0 +1,12 @@
+{
+  "utc": "2026-09-10T22:13:07.967949+00:00",
+  "source": "https://download.pytorch.org/models/resnet18-f37072fd.pth",
+  "bytes": 46830571,
+  "sha256": "f37072fd47e89c5e827621c5baffa7500819f7896bbacec160b1a16c560e07ec",
+  "existing_file_reused": false,
+  "official_filename_hash_prefix_verified": true,
+  "purpose": "Local course research; colour transfer pilot; no redistribution",
+  "access": "Public unauthenticated official PyTorch model URL",
+  "terms_note": "TorchVision code BSD; pretrained weights require consideration of training-data terms. No commercial or redistribution clearance claimed.",
+  "documentation": "https://docs.pytorch.org/vision/0.20/models/generated/torchvision.models.resnet18.html"
+}

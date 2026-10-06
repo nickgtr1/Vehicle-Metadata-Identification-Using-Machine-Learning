@@ -1,0 +1,367 @@
+{
+  "schema": "36127.unified_classification_evaluation/v1",
+  "generated_utc": "2026-09-16T12:31:54.130445+00:00",
+  "task": "body_type",
+  "split": "validation",
+  "source": "PR #5 (RainyxWang) published validation aggregate, read-only snapshot 2026-09-16",
+  "notes": "R4 regression round. Derived from another contributor's published confusion matrix. Raw class mapping preserved.",
+  "classes": [
+    "MPV",
+    "SUV",
+    "convertible",
+    "crossover",
+    "estate",
+    "fastback",
+    "hardtop convertible",
+    "hatchback",
+    "minibus",
+    "pickup",
+    "sedan",
+    "sports"
+  ],
+  "class_count": 12,
+  "display_classes": [
+    "MPV",
+    "SUV",
+    "convertible",
+    "crossover",
+    "estate",
+    "fastback",
+    "hardtop convertible",
+    "hatchback",
+    "minibus",
+    "pickup",
+    "sedan",
+    "sports"
+  ],
+  "label_normalisation": "none",
+  "policy": {
+    "class_list": "fixed by the caller and saved in declared order",
+    "label_normalisation": "raw labels are compared unchanged unless an adapter is requested explicitly; the same adapter is applied to the class list, the target column and the prediction column, and any many-to-one collapse aborts the run instead of merging classes",
+    "zero_division": "zero_division=0 (undefined precision/recall/F1 become 0.0)",
+    "macro": "primary macro F1 averages over every declared class, including classes with zero support; macro_f1_excluding_zero_support is reported separately and is not interchangeable",
+    "unusable_rows": "abort unless --allow-unknown-labels is given; excluded rows are always written out",
+    "official_test": "a split name requires --allow-official-test when, ignoring case and separators, it is one of: test, tests, testing, officialtest, testset, testdata, finaltest, holdout, holdouts, holdoutset",
+    "confusion_counts": "counts must be integers; integral floats such as 1.0 are accepted, anything fractional, negative, non-finite, boolean, textual or out of int64 range is refused",
+    "class_indices": "class mapping indices must be JSON integers; floats, booleans and strings are refused",
+    "expected_rows": "checked against the row count in prediction mode and against the matrix total in aggregate mode"
+  },
+  "inputs": {
+    "confusion_matrix_path": "<project>/outputs/2026-09-16_f1_evaluation_r4_regression/inputs/pr5_aggregate/body_type_validation_metrics.json",
+    "confusion_matrix_sha256": "98f3f1d8468b194726eee0f33ba326e15ce6327a7a86a37bed6b4a97493e2541",
+    "input_mode": "aggregate_confusion_matrix"
+  },
+  "environment": {
+    "python": "3.12.14",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "processor": "Intel64 Family 6 Model 154 Stepping 3, GenuineIntel",
+    "device": "unused",
+    "cuda_available": true,
+    "seed": "not_applicable",
+    "packages": {
+      "numpy": "2.5.2",
+      "pandas": "3.0.5",
+      "scikit-learn": "1.9.0",
+      "scipy": "1.18.1"
+    }
+  },
+  "counts": {
+    "rows_scored": 782,
+    "correct": 524,
+    "rows_excluded": 0
+  },
+  "accuracy": 0.670076726342711,
+  "macro_f1": 0.6960901786007714,
+  "macro_f1_excluding_zero_support": 0.6960901786007714,
+  "macro_precision": 0.7375401730643079,
+  "macro_recall": 0.6793794615495942,
+  "weighted_f1": 0.6734825891010982,
+  "per_class": {
+    "MPV": {
+      "precision": 0.75,
+      "recall": 0.81,
+      "f1": 0.7788461538461539,
+      "support": 100,
+      "predicted": 108
+    },
+    "SUV": {
+      "precision": 0.803921568627451,
+      "recall": 0.82,
+      "f1": 0.8118811881188118,
+      "support": 100,
+      "predicted": 102
+    },
+    "convertible": {
+      "precision": 0.6363636363636364,
+      "recall": 0.5384615384615384,
+      "f1": 0.5833333333333334,
+      "support": 26,
+      "predicted": 22
+    },
+    "crossover": {
+      "precision": 0.7058823529411765,
+      "recall": 0.7058823529411765,
+      "f1": 0.7058823529411765,
+      "support": 17,
+      "predicted": 17
+    },
+    "estate": {
+      "precision": 0.8064516129032258,
+      "recall": 0.4807692307692308,
+      "f1": 0.6024096385542168,
+      "support": 52,
+      "predicted": 31
+    },
+    "fastback": {
+      "precision": 0.7192982456140351,
+      "recall": 0.41836734693877553,
+      "f1": 0.5290322580645161,
+      "support": 98,
+      "predicted": 57
+    },
+    "hardtop convertible": {
+      "precision": 0.65,
+      "recall": 0.6046511627906976,
+      "f1": 0.6265060240963854,
+      "support": 43,
+      "predicted": 40
+    },
+    "hatchback": {
+      "precision": 0.6436781609195402,
+      "recall": 0.56,
+      "f1": 0.5989304812834224,
+      "support": 100,
+      "predicted": 87
+    },
+    "minibus": {
+      "precision": 0.9259259259259259,
+      "recall": 0.8620689655172413,
+      "f1": 0.8928571428571429,
+      "support": 29,
+      "predicted": 27
+    },
+    "pickup": {
+      "precision": 1.0,
+      "recall": 0.8823529411764706,
+      "f1": 0.9375,
+      "support": 17,
+      "predicted": 15
+    },
+    "sedan": {
+      "precision": 0.3978494623655914,
+      "recall": 0.74,
+      "f1": 0.5174825174825175,
+      "support": 100,
+      "predicted": 186
+    },
+    "sports": {
+      "precision": 0.8111111111111111,
+      "recall": 0.73,
+      "f1": 0.768421052631579,
+      "support": 100,
+      "predicted": 90
+    }
+  },
+  "classes_with_zero_support": [],
+  "zero_support_class_count": 0,
+  "classes_never_predicted": [],
+  "confusion_matrix": [
+    [
+      81,
+      3,
+      0,
+      0,
+      2,
+      2,
+      1,
+      5,
+      0,
+      0,
+      6,
+      0
+    ],
+    [
+      4,
+      82,
+      0,
+      0,
+      1,
+      2,
+      0,
+      2,
+      1,
+      0,
+      6,
+      2
+    ],
+    [
+      2,
+      1,
+      14,
+      0,
+      0,
+      1,
+      5,
+      1,
+      0,
+      0,
+      0,
+      2
+    ],
+    [
+      0,
+      2,
+      0,
+      12,
+      0,
+      0,
+      0,
+      3,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      8,
+      1,
+      0,
+      0,
+      25,
+      1,
+      1,
+      3,
+      0,
+      0,
+      11,
+      2
+    ],
+    [
+      0,
+      2,
+      1,
+      0,
+      0,
+      41,
+      2,
+      6,
+      0,
+      0,
+      42,
+      4
+    ],
+    [
+      0,
+      0,
+      2,
+      0,
+      0,
+      0,
+      26,
+      1,
+      0,
+      0,
+      12,
+      2
+    ],
+    [
+      6,
+      7,
+      1,
+      4,
+      2,
+      3,
+      0,
+      56,
+      1,
+      0,
+      19,
+      1
+    ],
+    [
+      4,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      25,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      15,
+      0,
+      0
+    ],
+    [
+      3,
+      3,
+      2,
+      1,
+      1,
+      4,
+      1,
+      7,
+      0,
+      0,
+      74,
+      4
+    ],
+    [
+      0,
+      0,
+      2,
+      0,
+      0,
+      3,
+      4,
+      2,
+      0,
+      0,
+      16,
+      73
+    ]
+  ],
+  "matrix_cross_check": {
+    "performed": false,
+    "status": "not_performed",
+    "reason": "aggregate input: there is no second representation to compare against. Recomputing the supplied matrix with the same formula is not an independent check. The independent check for this mode is arithmetic_check, which re-runs the arithmetic with exact rationals."
+  },
+  "arithmetic_check": {
+    "basis": "exact rational arithmetic (fractions.Fraction), independent of the numpy path",
+    "compared_values": 41,
+    "max_abs_difference": 1.1102230246251565e-16,
+    "tolerance": 1e-12,
+    "passed": true,
+    "worst_key": "macro_f1"
+  },
+  "code_hashes": {
+    "evaluation.py": "cbf08b1d47cb3af21bd34bdb748a435f67dc2975d983227f38af0aeeffe0ac4d",
+    "evaluate_classification.py": "7205bfbd37d7df7a1b0041ad37317bffdfecba43ae050f2260f86accc374377f"
+  },
+  "limitations": [
+    "Metrics describe the supplied split only; they are not official test scores unless the split says so.",
+    "Uncalibrated scores are recorded but never used by the metrics.",
+    "Macro F1 treats every declared class equally, including classes with tiny support."
+  ],
+  "public_export_note": "Execution command omitted from the published copy to avoid personal absolute paths; the reproduction commands are in docs/CLASSIFICATION_EVALUATION.md.",
+  "sanitised_for_publication": true,
+  "sanitisation": {
+    "absolute_paths_replaced_with": "<project>",
+    "command_field_removed": true,
+    "hashes_and_numbers_untouched": true
+  }
+}

@@ -1,0 +1,35 @@
+Public excerpt: original command path omitted; epoch records and final output unchanged.
+Starting fixed-recipe ResNet18: 2 head-only + 6 layer4/head epochs
+{"epoch": 1, "phase": "head", "train_loss": 2.2059039345035307, "validation_accuracy": 0.31088082901554404, "validation_macro_f1": 0.2051132434402699, "seconds": 12.943054700001085}
+{"epoch": 2, "phase": "head", "train_loss": 1.862472408468073, "validation_accuracy": 0.41450777202072536, "validation_macro_f1": 0.3894862295427645, "seconds": 13.079826399996819}
+{"epoch": 3, "phase": "layer4_and_head", "train_loss": 1.4521864674308083, "validation_accuracy": 0.5518134715025906, "validation_macro_f1": 0.5450142001543195, "seconds": 13.106707999999344}
+{"epoch": 4, "phase": "layer4_and_head", "train_loss": 0.7177125254234711, "validation_accuracy": 0.6761658031088082, "validation_macro_f1": 0.6707007514351211, "seconds": 12.683152799996606}
+{"epoch": 5, "phase": "layer4_and_head", "train_loss": 0.45262999178527236, "validation_accuracy": 0.6839378238341969, "validation_macro_f1": 0.6842513152103528, "seconds": 12.777864600000612}
+{"epoch": 6, "phase": "layer4_and_head", "train_loss": 0.20313912494616074, "validation_accuracy": 0.7253886010362695, "validation_macro_f1": 0.7283770907056246, "seconds": 12.604647699998168}
+{"epoch": 7, "phase": "layer4_and_head", "train_loss": 0.0833406902946435, "validation_accuracy": 0.6709844559585493, "validation_macro_f1": 0.6729339010963886, "seconds": 12.668238199999905}
+{"epoch": 8, "phase": "layer4_and_head", "train_loss": 0.07759389715849772, "validation_accuracy": 0.7253886010362695, "validation_macro_f1": 0.7299082471403191, "seconds": 12.517168099999253}
+{
+  "training_completed": true,
+  "train_rows": 1540,
+  "validation_rows": 386,
+  "best_epoch": 8,
+  "validation_accuracy": 0.7253886010362695,
+  "validation_macro_f1": 0.7299082471403191,
+  "accuracy_delta_percentage_points": 55.44041450777202,
+  "macro_f1_delta": 0.6122213434736329,
+  "checkpoint_reload_verified": true,
+  "csv_metrics_independently_verified": true,
+  "selected_image_hashes_rechecked": 1926,
+  "official_test_evaluated": false,
+  "training_seconds": 102.81089380000049,
+  "cpu_validation_seconds_including_image_loading": 9.71396210000239,
+  "cpu_validation_images_per_second_including_loading": 39.736617872938275,
+  "forward_latency_median_ms": 1.8075000007229391,
+  "latency_device": "cuda",
+  "latency_scope": "batch1, 224px, 10 warmups, 50 trials, forward only; excludes preprocessing/detection/UI",
+  "model_bytes": 44795972,
+  "checkpoint_sha256": "49d9feebf34a952717753d898af5f36aafb385cd0ebeb8fcb4e8b52912b78739",
+  "scope": "Capped same-split validation comparison; not full training, independent test, or police-domain validation."
+}
+
+EXIT_CODE: 0

@@ -1,0 +1,13 @@
+task: body_type
+manifest: data/manifests/compcars_classification.csv
+architecture: resnet18
+image_size: 224
+batch_size: 16
+epochs: 5
+learning_rate: 0.001
+validation_fraction: 0.2
+seed: 36127
+device: cpu
+cpu_threads: 2
+group_col: null
+synthetic: false
