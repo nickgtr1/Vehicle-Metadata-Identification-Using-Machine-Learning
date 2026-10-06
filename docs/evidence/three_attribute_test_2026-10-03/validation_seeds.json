@@ -1,0 +1,117 @@
+{
+  "note": "Make and body-type seeds share one holdout (split seed fixed at 36127), so their spread is training randomness alone. The colour seeds each drew their own partition, so their spread mixes partition variation with training randomness.",
+  "colour": {
+    "operation": "summarise_uncapped_colour_runs_across_seeds",
+    "split_mode": "uncapped full official-train data",
+    "per_class_cap_before_split": null,
+    "classes": 10,
+    "runs": [
+      {
+        "directory": "seed_36127",
+        "seed": 36127,
+        "best_epoch": 7,
+        "train_rows": 24890,
+        "validation_rows": 6228,
+        "validation_accuracy": 0.9131342324983943,
+        "validation_macro_f1": 0.8141774207353958,
+        "rows_in_metrics_file": 6228,
+        "classes_in_metrics_file": 10,
+        "checkpoint_sha256": "0e50572ebf88acb3a0a5595fa4fdaec331127ab8690beafc5161e3e21c0b7e44",
+        "checkpoint_reload_verified": true,
+        "csv_metrics_independently_verified": true,
+        "training_seconds": 3077.7376890000887
+      },
+      {
+        "directory": "seed_36128",
+        "seed": 36128,
+        "best_epoch": 8,
+        "train_rows": 24890,
+        "validation_rows": 6228,
+        "validation_accuracy": 0.916024405908799,
+        "validation_macro_f1": 0.8391447178380649,
+        "rows_in_metrics_file": 6228,
+        "classes_in_metrics_file": 10,
+        "checkpoint_sha256": "871035a144c2db026b2aa4ebd98912ec1d449a64b9d6ef0c2941de931f32cf70",
+        "checkpoint_reload_verified": true,
+        "csv_metrics_independently_verified": true,
+        "training_seconds": 3083.1466248000506
+      },
+      {
+        "directory": "seed_36129_rerun1",
+        "seed": 36129,
+        "best_epoch": 5,
+        "train_rows": 24890,
+        "validation_rows": 6228,
+        "validation_accuracy": 0.9108863198458574,
+        "validation_macro_f1": 0.8261963804647582,
+        "rows_in_metrics_file": 6228,
+        "classes_in_metrics_file": 10,
+        "checkpoint_sha256": "fc18427289ea01c9183af44510d56943019b2768aa95bf99eae1135d3eb040b5",
+        "checkpoint_reload_verified": true,
+        "csv_metrics_independently_verified": true,
+        "training_seconds": 2310.6314054999966
+      }
+    ],
+    "accuracy": {
+      "mean": 0.9133483194176836,
+      "stdev": 0.0025757245590913957,
+      "min": 0.9108863198458574,
+      "max": 0.916024405908799
+    },
+    "macro_f1": {
+      "mean": 0.8265061730127395,
+      "stdev": 0.01248653113239725,
+      "min": 0.8141774207353958,
+      "max": 0.8391447178380649
+    },
+    "pilot_reference": {
+      "validation_accuracy": 0.7253886010362695,
+      "validation_macro_f1": 0.7299082471403191,
+      "train_rows": 1540,
+      "validation_rows": 386,
+      "checkpoint_sha256": "49d9feebf34a952717753d898af5f36aafb385cd0ebeb8fcb4e8b52912b78739"
+    },
+    "official_test_evaluated": false,
+    "note": "Validation results from uncapped runs over the committed manifest. No official test image was scored. Near-duplicate and physical-vehicle disjointness remain unverified."
+  },
+  "make": [
+    {
+      "seed": 36127,
+      "rows": 3230,
+      "accuracy": 0.7024767801857585,
+      "macro_f1": 0.6787236614567016
+    },
+    {
+      "seed": 36128,
+      "rows": 3230,
+      "accuracy": 0.7151702786377709,
+      "macro_f1": 0.6769381635836024
+    },
+    {
+      "seed": 36129,
+      "rows": 3230,
+      "accuracy": 0.6746130030959753,
+      "macro_f1": 0.6485333088111261
+    }
+  ],
+  "body_type": [
+    {
+      "seed": 36127,
+      "rows": 3131,
+      "accuracy": 0.8252954327690833,
+      "macro_f1": 0.6992896084004143
+    },
+    {
+      "seed": 36128,
+      "rows": 3131,
+      "accuracy": 0.84797189396359,
+      "macro_f1": 0.7164624375441067
+    },
+    {
+      "seed": 36129,
+      "rows": 3131,
+      "accuracy": 0.834238262535931,
+      "macro_f1": 0.7008590361136676
+    }
+  ]
+}
