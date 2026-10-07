@@ -31,6 +31,9 @@ from vehicle_id.attributes.modelling import (
 )
 
 PRETRAINED_SHA256 = 'f37072fd47e89c5e827621c5baffa7500819f7896bbacec160b1a16c560e07ec'
+# Split construction seed. It stays fixed so that repeated optimisation seeds are
+# fitted and validated on one shared holdout; only the optimisation seed varies.
+SPLIT_SEED = 36127
 REPO = Path(__file__).resolve().parents[1]
 SOURCE = REPO / 'data/manifests/compcars_classification.csv'
 
@@ -108,7 +111,7 @@ def prepare(args):
     label = TASKS[args.task]
     if frame[label].isna().any():
         raise ValueError('Missing eligible target')
-    fit, val, excluded, classes, info = pilot_split(frame, label, args.cap, 36127, reserved)
+    fit, val, excluded, classes, info = pilot_split(frame, label, args.cap, SPLIT_SEED, reserved)
     split = pd.concat([fit, val], ignore_index=True)
     validate_split(split, frame, label, reserved)
     split.to_csv(out / 'split_assignments.csv', index=False)
@@ -118,7 +121,7 @@ def prepare(args):
     info['missing_body_labels_by_split'] = unavailable.split.value_counts().to_dict()
     save_json(out / 'split_summary.json', info)
     config = {'task': args.task, 'architecture': 'resnet18', 'image_size': 224,
-              'batch_size': 32, 'epochs': 8, 'head_only_epochs': 2, 'seed': 36127,
+              'batch_size': 32, 'epochs': 8, 'head_only_epochs': 2, 'seed': args.seed,
               'head_learning_rate': .001, 'layer4_learning_rate': .0001, 'weight_decay': .01,
               'workers': 0, 'per_class_cap_before_split': args.cap,
               'pretrained_sha256': PRETRAINED_SHA256, 'pretrained_weights': 'IMAGENET1K_V1',
@@ -160,8 +163,43 @@ def make_loader(frame, config, root, classes, shuffle=False):
                       num_workers=0, generator=torch.Generator().manual_seed(config['seed']))
 
 
+def resolve_run_config(config, output):
+    """Overlay the seed and device recorded by the run itself on the prepared config.
+
+    A single prepared split can be trained with several optimisation seeds, so the
+    checkpoint carries the seed the run actually used. Everything else - split,
+    manifest, recipe - still has to match the prepared directory.
+    """
+    recorded = Path(output) / 'config.json'
+    if recorded.is_file():
+        run_config = json.loads(recorded.read_text(encoding='utf-8'))
+        for key in ('seed', 'device'):
+            if key in run_config:
+                config[key] = run_config[key]
+    return config
+
+
+def validation_predictions(model, loader):
+    """Predict on CPU, the same device the fresh-process reload check uses.
+
+    Validating on the training device while reloading on CPU makes the recorded
+    matrix unreproducible: the two forward passes can disagree on a few borderline
+    images. Predicting on CPU for both keeps the check exact and leaves the model on
+    the device it came from.
+    """
+    original = next(model.parameters()).device
+    if original.type != 'cpu':
+        model.to('cpu')
+    try:
+        return predict_loader(model, loader, 'cpu')
+    finally:
+        if original.type != 'cpu':
+            model.to(original)
+
+
 def verify(args):
     config, fit, val, classes = load_prepared(args.prepared, args.root, args.audit)
+    config = resolve_run_config(config, args.output)
     payload = torch.load(args.output / 'best.pt', map_location='cpu', weights_only=True)
     if payload['classes'] != classes or any(payload['config'].get(k) != v for k, v in config.items()):
         raise ValueError('Checkpoint differs from prepared experiment')
@@ -201,6 +239,7 @@ def train(args):
     out = args.output
     out.mkdir(parents=True, exist_ok=False)
     config['device'] = args.device
+    config['seed'] = args.seed
     save_json(out / 'config.json', config)
     save_json(out / 'run_metadata.json', metadata(config))
     save_json(out / 'class_to_idx.json', {c: i for i, c in enumerate(classes)})
@@ -239,7 +278,7 @@ def train(args):
                 raise RuntimeError('Nonfinite training loss')
             loss.backward(); optimiser.step()
             loss_sum += float(loss.detach()) * len(y)
-        y, pred, _ = predict_loader(model, validation, args.device)
+        y, pred, _ = validation_predictions(model, validation)
         result = metrics(y, pred, classes)
         row = {'epoch': epoch, 'train_loss': loss_sum / len(fit),
                'validation_accuracy': result['accuracy'], 'validation_macro_f1': result['macro_f1'],
@@ -265,7 +304,7 @@ def train(args):
     save_json(out / 'training_summary.json', summary)
 
 
-def main():
+def build_parser():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('mode', choices=['prepare', 'train', 'verify'])
     parser.add_argument('--root', type=Path, required=True)
@@ -276,6 +315,14 @@ def main():
     parser.add_argument('--output', type=Path)
     parser.add_argument('--weights', type=Path)
     parser.add_argument('--device', choices=['cpu', 'cuda'], default='cuda')
+    parser.add_argument('--seed', type=int, default=SPLIT_SEED,
+                        help='optimisation seed for this run; the split seed stays fixed at '
+                             'SPLIT_SEED so that repeated seeds share one holdout')
+    return parser
+
+
+def main():
+    parser = build_parser()
     args = parser.parse_args()
     if args.mode == 'prepare' and (not args.task or args.cap < 2):
         parser.error('prepare requires --task and --cap >= 2')
