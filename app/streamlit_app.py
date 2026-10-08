@@ -1,14 +1,3 @@
-"""Streamlit demo for the 36127 vehicle metadata pipeline.
-
-Run from the repo root (app lives in app/):
-    streamlit run app/streamlit_app.py
-Set VEHICLE_ID_REPO to the repo root if the file is run from elsewhere.
-
-Nothing is downloaded. YOLO weights and attribute checkpoints must already exist
-locally. Without a detector you can paste Stage 1 boxes as JSON. Without a colour
-checkpoint the deterministic HSV colour baseline is used.
-"""
-
 from __future__ import annotations
 
 import json
@@ -22,7 +11,7 @@ import streamlit as st
 import yaml
 from PIL import Image
 
-from notebook_viewer import render_notebooks_tab
+from vlm_results import render_vlm_comparison, render_vlm_final_findings
 
 REPO_ROOT = Path(os.environ.get("VEHICLE_ID_REPO") or Path(__file__).resolve().parents[1])
 sys.path.insert(0, str(REPO_ROOT / "src"))
@@ -107,10 +96,11 @@ with st.sidebar:
         allow_synthetic = st.checkbox("Allow synthetic smoke-test weights", value=False)
     with st.expander("VLM attribute fill (make / model / body type)", expanded=False):
         use_vlm = st.checkbox("Enable", value=False)
-        vlm_mode = st.radio(
-            "Model", ["zero-shot", "tuned"], index=0, horizontal=True,
-            help="zero-shot: portable, only needs GEMINI_API_KEY. tuned: best accuracy, needs the demo "
-                 "machine's own Vertex/gcloud auth — will fail on anyone else's machine.",
+        st.caption(
+            "Fine-tuned Gemini model (gemini-3.1-flash-lite, 10 epochs, adapter size 4). "
+            "On a 500-image held-out test set: make 92.8%, model 66.4%, body type 85.7%. "
+            "Needs the demo machine's own Vertex/gcloud auth. See the Notebooks and Compare "
+            "tabs for full evidence."
         )
     st.caption("Scores are uncalibrated softmax values. Pilot or synthetic outputs are not validated accuracy.")
 
@@ -124,7 +114,11 @@ with st.sidebar:
 analyse_tab, notebooks_tab = st.tabs(["Analyse", "Notebooks"])
 
 with notebooks_tab:
-    render_notebooks_tab(REPO_ROOT / "notebooks" / "vlm")
+    comparison_subtab, findings_subtab = st.tabs(["Comparison", "Final Findings"])
+    with comparison_subtab:
+        render_vlm_comparison(REPO_ROOT / "results")
+    with findings_subtab:
+        render_vlm_final_findings(REPO_ROOT / "results")
 
 with analyse_tab:
     # ------------------------------------------------------------ input
@@ -191,7 +185,7 @@ with analyse_tab:
     if use_vlm:
         from vehicle_id.vlm_fallback import apply_vlm_fallback
         with st.spinner("Running VLM attribute fill..."):
-            vehicles, vlm_error = apply_vlm_fallback(image_path, vehicles, predictors, enabled=True, mode=vlm_mode)
+            vehicles, vlm_error = apply_vlm_fallback(image_path, vehicles, predictors, enabled=True)
         if vlm_error:
             st.warning(f"VLM attribute fill failed for at least one vehicle: {vlm_error}")
 
@@ -203,22 +197,26 @@ with analyse_tab:
     m1, m2, m3 = st.columns(3)
     m1.metric("Vehicles found", len(vehicles))
     m2.metric("Avg detection conf.", f"{sum(v['detection_confidence'] for v in vehicles) / len(vehicles):.0%}" if vehicles else "–")
-    m3.metric("Attribute models", len(predictors) or "none (colour baseline)")
+    if predictors and use_vlm:
+        attribute_models_label = f"{len(predictors)} trained + VLM"
+    elif predictors:
+        attribute_models_label = len(predictors)
+    elif use_vlm:
+        attribute_models_label = "VLM (fine-tuned)"
+    else:
+        attribute_models_label = "none (colour baseline)"
+    m3.metric("Attribute models", attribute_models_label)
 
     if not vehicles:
         st.warning("No vehicles detected.")
         st.stop()
 
-    tab_cards, tab_table, tab_json = st.tabs(["Vehicles", "Table", "Raw JSON"])
+    tab_cards, tab_table, tab_compare, tab_json = st.tabs(["Vehicles", "Table", "Compare", "Raw JSON"])
 
     with tab_cards:
         cols = st.columns(3)
         for i, rec in enumerate(vehicles):
             prof, conf = rec["vehicle_profile"], rec["vehicle_profile"]["confidence"]
-            vlm_colour_row = (
-                f'<div class="row"><span class="k">Colour (VLM)</span><span>{value_html(rec.get("vlm_colour"))}</span></div>'
-                if rec.get("vlm_colour") else ""
-            )
             with cols[i % 3]:
                 st.markdown(
                     f'<div class="card"><h4>{rec["vehicle_crop_id"].replace("_", " ").title()} '
@@ -227,9 +225,7 @@ with analyse_tab:
                     f'<div class="row"><span class="k">Body type</span><span>{value_html(prof["body_type"], conf.get("body_type"))}</span></div>'
                     f'<div class="row"><span class="k">Colour</span><span>{value_html(prof["colour"], conf.get("colour"))}'
                     f'{" <span class=badge warn>baseline</span>" if colour_is_baseline else ""}</span></div>'
-                    f'{vlm_colour_row}'
                     f'<div class="row"><span class="k">Model</span><span>{value_html(prof["model"])}</span></div>'
-                    f'<div class="row"><span class="k">Damage / accessories</span><span class="muted">not assessed</span></div>'
                     "</div>",
                     unsafe_allow_html=True,
                 )
@@ -253,6 +249,31 @@ with analyse_tab:
     with tab_table:
         st.dataframe(df, width="stretch", hide_index=True)
         st.download_button("Download CSV", df.to_csv(index=False), "vehicle_results.csv", "text/csv")
+
+    with tab_compare:
+        if not use_vlm:
+            st.info("Enable 'VLM attribute fill' in the sidebar, then click Analyse again, to see this comparison.")
+        else:
+            st.caption(
+                "Attribute model / baseline (whatever the pipeline actually used for that field -- a "
+                "trained checkpoint if one was loaded, otherwise the HSV colour baseline or 'not "
+                "assessed') vs the fine-tuned VLM's own independent answer for the same vehicle."
+            )
+            compare_rows = []
+            for r in vehicles:
+                prof = r["vehicle_profile"]
+                vlmp = r.get("vlm_profile") or {}
+                for attr in ("make", "body_type", "colour", "model"):
+                    compare_rows.append({
+                        "vehicle": r["vehicle_crop_id"],
+                        "attribute": attr,
+                        "attribute model / baseline": prof.get(attr) or "not assessed",
+                        "source": prof["status"].get(attr, "not_assessed"),
+                        "VLM (tuned)": vlmp.get(attr) or ("not assessed" if attr == "colour" else vlmp.get(attr)) or "not assessed",
+                    })
+            compare_df = pd.DataFrame(compare_rows)
+            st.dataframe(compare_df, width="stretch", hide_index=True)
+
     with tab_json:
         payload = json.dumps({"vehicles": vehicles}, indent=2)
         st.download_button("Download JSON", payload, "vehicle_results.json", "application/json")
