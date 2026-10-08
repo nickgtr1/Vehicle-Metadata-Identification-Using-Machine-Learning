@@ -1,0 +1,29 @@
+{
+  "colour": {
+    "dataset": "CompCars surveillance, official classification test split",
+    "declared_subset": 13323,
+    "official_test_keys": 13333,
+    "training_rows": 31118,
+    "official_train_keys": 31148,
+    "exclusions": "10 official test keys and 30 official train keys are absent from the committed manifest"
+  },
+  "make": {
+    "dataset": "CompCars web classification test split",
+    "declared_subset": 14922,
+    "official_test_keys": 14939,
+    "training_rows": 16001,
+    "manifest_train_rows": 16003,
+    "official_train_keys": 16016,
+    "exclusions": "17 official test keys and 13 official train keys are absent from the committed manifest; of the 16,003 manifest train rows, 1 was excluded as a duplicate of test content or as a conflicting label and 1 duplicate representative of an identical-byte group was removed, leaving 16,001 fit and validation rows"
+  },
+  "body_type": {
+    "dataset": "CompCars web classification test split, minus unavailable labels",
+    "declared_subset": 14570,
+    "official_test_keys": 14939,
+    "training_rows": 15631,
+    "manifest_train_rows": 16003,
+    "official_train_keys": 16016,
+    "exclusions": "the same 17 absent test keys and 13 absent official train keys; 352 test rows and 369 train rows whose official body type is 0 (unavailable); 3 duplicate or conflicting exclusions; leaving 15,631 fit and validation rows"
+  },
+  "shared": "Route-1 populations are declared subsets of the official test splits, not the complete official test sets. The three attributes use different datasets and class counts, so no combined score is defined."
+}

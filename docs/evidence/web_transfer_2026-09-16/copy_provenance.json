@@ -1,0 +1,148 @@
+{
+  "byte_identical_copies": [
+    {
+      "file": "make/config.json",
+      "sha256": "00c408f333c739d78af26fe94527f511abfc45a37b2ed82165db4612ff97f5f8"
+    },
+    {
+      "file": "make/class_to_idx.json",
+      "sha256": "1e926b809db4e25ea2b26f650da63331a98d4782eb14c73272c96ed5b23ba82a"
+    },
+    {
+      "file": "make/history.csv",
+      "sha256": "f998be5b2780d9441c5a116f28a8d5ae9d03be28d3f404e4271dfc2ba3b2690e"
+    },
+    {
+      "file": "make/validation_metrics.json",
+      "sha256": "abc2b82623e38ef5b85272085a4e5de19bb3cf4fe92f6193d6d2385f31f2ce29"
+    },
+    {
+      "file": "make/majority_baseline_validation.json",
+      "sha256": "bc31c59c55805e34b8bfc3f086d24bde398c27d3d79dafcd6d60d3ced4ab39f6"
+    },
+    {
+      "file": "make/confusion_matrix.csv",
+      "sha256": "9a50849f7aaf1444d5d56a80c4d70d42c15b1cd07eccd84ad00d825b670c07c8"
+    },
+    {
+      "file": "make/per_class_recall.csv",
+      "sha256": "5ebda3b572c555d3db756f702de94147fdb3e2c3b430f907ba822bf583317b4a"
+    },
+    {
+      "file": "make/training_summary.json",
+      "sha256": "8400c79b684fa7e63c6bef36006a0c44e43c1296cd6a4b6fdc6a7cc6b6eeff86"
+    },
+    {
+      "file": "make/verification.json",
+      "sha256": "115b737fbdb9d52f50573c61bdc518656e6395e52bcd1a2c62ccfe4de7a52e90"
+    },
+    {
+      "file": "make/source_hashes.json",
+      "sha256": "b70afe69b8f25b58d15ac22d0f4b15212bc65fb25a403986d41590bdc2fdab7d"
+    },
+    {
+      "file": "make/split_summary.json",
+      "sha256": "0445156b4fdbdb1a61ddf3abc96101dcdeb90817188d6fb7ca72f4f4638eb9ac"
+    },
+    {
+      "file": "make/class_counts.csv",
+      "sha256": "2b8b62f4eef7c1a2551e091f49788013c4df93b9cdc4ce06603a8cf20246525c"
+    },
+    {
+      "file": "body_type/config.json",
+      "sha256": "339bc0c1406aab0446670a4e37e51f44751d66169cbbc328ca05fc3a4dd7dcc3"
+    },
+    {
+      "file": "body_type/class_to_idx.json",
+      "sha256": "1e7bb60f406856e4d85c7d4990564030b92226d743de25a817785e0e71afeb3c"
+    },
+    {
+      "file": "body_type/history.csv",
+      "sha256": "e667feaa7ce605de7bbf8c6d58f3d033dbd53ee45763d22fd945471545e561d0"
+    },
+    {
+      "file": "body_type/validation_metrics.json",
+      "sha256": "98f3f1d8468b194726eee0f33ba326e15ce6327a7a86a37bed6b4a97493e2541"
+    },
+    {
+      "file": "body_type/majority_baseline_validation.json",
+      "sha256": "f48efc9ad44d89ae2c47ae42681a93756d1d11feb782333544413a78d5743906"
+    },
+    {
+      "file": "body_type/confusion_matrix.csv",
+      "sha256": "a19ad099b6d15d709c68585e4b12ba3b1b015b531317993d62826c2b7050cd05"
+    },
+    {
+      "file": "body_type/per_class_recall.csv",
+      "sha256": "31673bf685fd3c9a5adb1a1b548639e44098df751901cb2c73004c716f37479d"
+    },
+    {
+      "file": "body_type/training_summary.json",
+      "sha256": "08ea4988eb6afeb0c85f6e477ca27b810566142665fcc90733a892d463909e06"
+    },
+    {
+      "file": "body_type/verification.json",
+      "sha256": "0ab25ecf8b0503f62f5f09768e30aa527f6dc6c57b92843e00ee101254097769"
+    },
+    {
+      "file": "body_type/source_hashes.json",
+      "sha256": "b70afe69b8f25b58d15ac22d0f4b15212bc65fb25a403986d41590bdc2fdab7d"
+    },
+    {
+      "file": "body_type/split_summary.json",
+      "sha256": "c9d00c4c7c123cea1209ad486d1378cce067b6016d22ad13c676ac21e45a8f2f"
+    },
+    {
+      "file": "body_type/class_counts.csv",
+      "sha256": "a435794854eb9c83c47b96b5b34ddaf75864ceb17e10a5a1ea75b0774d4ba561"
+    },
+    {
+      "file": "report/baseline_comparison.csv",
+      "sha256": "2d39e90ab9648fd771209b4293a95b8b21624a212c7c22cfc43e586cdf8057f2"
+    },
+    {
+      "file": "report/all_confusions.csv",
+      "sha256": "cda56602eefc94405c917512880f78422e00f83a476fe4432e01d46cf0423d43"
+    },
+    {
+      "file": "report/make_per_class.csv",
+      "sha256": "5ebda3b572c555d3db756f702de94147fdb3e2c3b430f907ba822bf583317b4a"
+    },
+    {
+      "file": "report/body_type_per_class.csv",
+      "sha256": "31673bf685fd3c9a5adb1a1b548639e44098df751901cb2c73004c716f37479d"
+    },
+    {
+      "file": "report/figure_provenance.json",
+      "sha256": "ce4adcc1b270d56377de77d11b4fdf816e1f872f0028b69365a67f0d132a8f18"
+    },
+    {
+      "file": "report/baseline_comparison.png",
+      "sha256": "f8bbd677fe7b919c11b877cf219fc5a86d1e58ebae6eb16f995abdea24c23d2a"
+    },
+    {
+      "file": "report/validation_history.png",
+      "sha256": "dfbb6388178424937edba654fd1265942c5017f6208f764b46c8eca651490db3"
+    },
+    {
+      "file": "report/make_recall.png",
+      "sha256": "268b66757af8514fe6898062cf10fa6633d14fce1771d8ae3dbe195815bb8bac"
+    },
+    {
+      "file": "report/body_type_recall.png",
+      "sha256": "b5970835d21854d4e1092b0ff72f2e8ca92c2fe695d1d8a5504b3205dd42a049"
+    },
+    {
+      "file": "report/body_type_confusion.png",
+      "sha256": "e036ddfd309745b02ea8669e2d0382e2bff76cf7bb1224ae78f4b6714cd40cec"
+    }
+  ],
+  "derived_files": [
+    "make/environment.json",
+    "body_type/environment.json",
+    "report/MODEL_CARD.md",
+    "source_coverage.json",
+    "integration_summary.json"
+  ],
+  "derivation": "Environment allowlist omits command/local paths; model card adds later coverage finding; coverage/integration omit per-image records."
+}

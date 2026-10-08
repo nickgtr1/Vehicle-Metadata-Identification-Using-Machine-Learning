@@ -1,0 +1,22 @@
+{
+  "evaluation_entry_point": "76e618301996f6f32499b2787e6a657b12bce0579bc2705e2c22990d25d0d4c6",
+  "freeze_records": {
+    "colour": "3dfb7de9fa1c7c7c30fb2cd59a883fbab5b88a30c46edfd83be9472d7ba5113c",
+    "make": "31fe7bafcd2817825b76f11f4bac33ecabd36d498b570342d27861a703dc77a7",
+    "body_type": "6eda10ecdf37f73a5135d0eeaed0429c9b9c384759776f010f30ff451d4973bc"
+  },
+  "checkpoints": {
+    "colour": "871035a144c2db026b2aa4ebd98912ec1d449a64b9d6ef0c2941de931f32cf70",
+    "make": "8eeefde57c7e2e4b332ed3e06ebd7ce4f1ac618575a03ff64a1bf4b5b6fd3dae",
+    "body_type": "bf401400ae1660d77fefb6886c17ccef71d2187229d10acf6d76fa26f5a6e14d"
+  },
+  "membership_sources": {
+    "compcars_surveillance": "6d0b6115bc7ca46948b6af2e59a7031200fb6a83908837dcc9c8c289ae9dadff",
+    "compcars_web": "526d7f7c4cfd044e4c832918e6e10d194edea713734940d269a59df1ae06dbc0"
+  },
+  "membership_tables": {
+    "colour": "c440ff01c36cb6c11d9a0683789dad1bb9ca0255809887a9af8b7c42f73941a1",
+    "make": "9ff354d707f767df1022940bac0d856624b056c8d4d3fce3045e2ffc9d1266e7",
+    "body_type": "7ee71fdab2e1d12f73bfa082f524444fb777d81f23c50e85e9409bf4a501f4f4"
+  }
+}

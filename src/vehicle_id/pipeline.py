@@ -31,6 +31,10 @@ def analyse_vehicle_image(image_path, predictors=None, *, detections=None, detec
     predictors = predictors or {}
     if set(predictors) - {'make', 'body_type', 'colour'}:
         raise ValueError('Unsupported attribute predictor key')
+    # Reject a miswired checkpoint even when the image contains no detections.
+    for task, predictor in predictors.items():
+        if predictor.config['task'] != task:
+            raise ValueError('Checkpoint task does not match pipeline key')
     if detections is None:
         if detector_weights is None or not Path(detector_weights).is_file():
             raise FileNotFoundError('Provide approved, existing YOLO weights; auto-download is disabled')
@@ -40,6 +44,11 @@ def analyse_vehicle_image(image_path, predictors=None, *, detections=None, detec
         image = source.convert('RGB')
     annotated = image.copy()
     draw = ImageDraw.Draw(annotated)
+    font_size = max(14, round(image.width / 60))
+    try:
+        label_font = ImageFont.truetype('arial.ttf', font_size)
+    except OSError:
+        label_font = ImageFont.load_default(size=font_size)
     records = []
     for i, detection in enumerate(detections, 1):
         raw = detection.get('bbox', detection.get('bbox_xyxy'))
@@ -53,17 +62,20 @@ def analyse_vehicle_image(image_path, predictors=None, *, detections=None, detec
         profile = VehicleProfile(status={k: 'not_assessed' for k in
                                          ['make', 'model', 'body_type', 'colour', 'damage', 'accessories']})
         for task, predictor in predictors.items():
-            if predictor.config['task'] != task:
-                raise ValueError('Checkpoint task does not match pipeline key')
             result = predictor.predict(crop)
             setattr(profile, task, result['label'])
             profile.confidence[task] = result['score']
             profile.status[task] = result['status']
         records.append({'vehicle_crop_id': f'vehicle_{i:03d}', 'bbox_xyxy': list(box),
                         'detection_confidence': confidence, 'vehicle_profile': asdict(profile)})
-        draw.rectangle(box, outline='yellow', width=3)
-        label = f'V{i}: ' + ', '.join(f'{k}={getattr(profile,k)}' for k in predictors)
-        draw.text((box[0] + 3, box[1] + 3), label or f'V{i}', fill='yellow')
+        draw.rectangle(box, outline='#f9c74f', width=max(2, round(image.width / 500)))
+        # Short IDs link the boxes to result cards without covering the vehicle.
+        label = f'V{i}'
+        _, _, label_width, label_height = draw.textbbox((0, 0), label, font=label_font, anchor='lt')
+        left = min(box[0], max(0, image.width - label_width - 8))
+        top = max(0, box[1] - label_height - 8)
+        draw.rectangle((left, top, left + label_width + 8, top + label_height + 6), fill='#173b55')
+        draw.text((left + 4, top + 3), label, font=label_font, anchor='lt', fill='white')
     return {'vehicles': records, 'annotated_image': annotated,
             'confidence_semantics': 'Uncalibrated softmax scores for learned attributes'}
 

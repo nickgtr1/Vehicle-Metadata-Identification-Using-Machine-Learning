@@ -1,0 +1,18 @@
+{
+  "official_train_rows": 15634,
+  "official_test_rows_reserved": 14570,
+  "excluded_train_rows_duplicate_with_test_or_conflicting": 3,
+  "train_rows": 3112,
+  "validation_rows": 782,
+  "classes": 12,
+  "train_validation_exact_hash_overlap": 0,
+  "pilot_official_test_exact_hash_overlap": 0,
+  "duplicate_representative_policy": "one image per identical-byte SHA256 group",
+  "validation_distribution": "up to a per-class cap, NOT the natural full-dataset distribution",
+  "physical_identity_disjointness_verified": false,
+  "near_duplicate_audit_completed": false,
+  "missing_body_labels_by_split": {
+    "train": 369,
+    "test": 352
+  }
+}
