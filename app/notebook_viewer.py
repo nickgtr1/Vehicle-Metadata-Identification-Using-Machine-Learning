@@ -1,11 +1,4 @@
-"""Render .ipynb files inline in Streamlit, for a 'Notebooks' tab showing the
-VLM work (zero-shot eval, fine-tuning comparison, etc.) without leaving the app.
 
-Uses nbconvert's "basic" template (bare content, no built-in stylesheet) wrapped
-in minimal dark-theme CSS matching the rest of the app, rather than the "lab"/
-"classic" templates -- those ship a full Jupyter stylesheet that assumes a wide,
-light-background page and renders cramped/illegible in a narrow or dark container.
-"""
 from pathlib import Path
 
 import nbformat
