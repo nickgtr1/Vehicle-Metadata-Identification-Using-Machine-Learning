@@ -18,7 +18,8 @@ from sklearn.metrics import accuracy_score, f1_score, confusion_matrix, recall_s
 from sklearn.model_selection import train_test_split, GroupShuffleSplit
 from .dataset import CompCarsMakeDataset, resolve_image_path, parse_bbox
 
-TASKS = {'make': 'make_name', 'body_type': 'car_type_name', 'colour': 'color_name'}
+TASKS = {'make': 'make_name', 'body_type': 'car_type_name', 'colour': 'color_name',
+         'model': 'model_name'}
 
 
 def save_json(path, value):
