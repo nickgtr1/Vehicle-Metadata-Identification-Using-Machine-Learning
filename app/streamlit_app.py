@@ -248,7 +248,7 @@ with analyse_tab:
     df = pd.DataFrame(rows)
     with tab_table:
         st.dataframe(df, width="stretch", hide_index=True)
-        st.download_button("Download CSV", df.to_csv(index=False), "vehicle_results.csv", "text/csv")
+        st.download_button("Download CSV", df.to_csv(index=False), "vehicle_results.csv", "text/csv", on_click="ignore")
 
     with tab_compare:
         if not use_vlm:
@@ -257,26 +257,17 @@ with analyse_tab:
             st.caption(
                 "Attribute model / baseline (whatever the pipeline actually used for that field -- a "
                 "trained checkpoint if one was loaded, otherwise the HSV colour baseline or 'not "
-                "assessed') vs the fine-tuned VLM's own independent answer for the same vehicle."
+                "assessed') vs the fine-tuned VLM's own independent answer for the same vehicle. "
+                "CV uses the detection crop; VLM uses 15% padding on each side. "
+                "This is a demo comparison, not a matched-crop accuracy benchmark."
             )
-            compare_rows = []
-            for r in vehicles:
-                prof = r["vehicle_profile"]
-                vlmp = r.get("vlm_profile") or {}
-                for attr in ("make", "body_type", "colour", "model"):
-                    compare_rows.append({
-                        "vehicle": r["vehicle_crop_id"],
-                        "attribute": attr,
-                        "attribute model / baseline": prof.get(attr) or "not assessed",
-                        "source": prof["status"].get(attr, "not_assessed"),
-                        "VLM (tuned)": vlmp.get(attr) or ("not assessed" if attr == "colour" else vlmp.get(attr)) or "not assessed",
-                    })
-            compare_df = pd.DataFrame(compare_rows)
+            from vehicle_id.vlm_fallback import comparison_rows
+            compare_df = pd.DataFrame(comparison_rows(vehicles))
             st.dataframe(compare_df, width="stretch", hide_index=True)
 
     with tab_json:
         payload = json.dumps({"vehicles": vehicles}, indent=2)
-        st.download_button("Download JSON", payload, "vehicle_results.json", "application/json")
+        st.download_button("Download JSON", payload, "vehicle_results.json", "application/json", on_click="ignore")
         st.code(payload, language="json")
 
     st.caption(result["confidence_semantics"] + ". Colour baseline (when shown) is an unvalidated HSV heuristic.")
