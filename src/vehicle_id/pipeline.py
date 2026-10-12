@@ -24,12 +24,12 @@ from vehicle_id.schema import VehicleProfile
 def analyse_vehicle_image(image_path, predictors=None, *, detections=None, detector_weights=None):
     """Streamlit entry point. Use explicit existing YOLO weights or supplied boxes.
 
-    predictors maps make/body_type/colour to already-loaded AttributePredictor objects.
-    No model downloads, file writes, or assumptions that unavailable tasks ran.
+    predictors maps make/model/body_type/colour to already-loaded AttributePredictor
+    objects. No model downloads, file writes, or assumptions that unavailable tasks ran.
     """
     from math import isfinite
     predictors = predictors or {}
-    if set(predictors) - {'make', 'body_type', 'colour'}:
+    if set(predictors) - {'make', 'model', 'body_type', 'colour'}:
         raise ValueError('Unsupported attribute predictor key')
     # Reject a miswired checkpoint even when the image contains no detections.
     for task, predictor in predictors.items():
