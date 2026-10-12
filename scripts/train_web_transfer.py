@@ -310,7 +310,7 @@ def build_parser():
     parser.add_argument('--root', type=Path, required=True)
     parser.add_argument('--audit', type=Path, required=True)
     parser.add_argument('--prepared', type=Path, required=True)
-    parser.add_argument('--task', choices=['make', 'body_type'])
+    parser.add_argument('--task', choices=['make', 'body_type', 'model'])
     parser.add_argument('--cap', type=int, default=100)
     parser.add_argument('--output', type=Path)
     parser.add_argument('--weights', type=Path)
