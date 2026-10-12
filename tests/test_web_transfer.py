@@ -50,6 +50,19 @@ class WebTransferTests(unittest.TestCase):
             profile = result['vehicles'][0]['vehicle_profile']
             self.assertEqual(profile['status']['make'], 'synthetic_smoke_only')
             self.assertEqual(profile['status']['body_type'], 'not_assessed')
+            # The car-model task is a first-class predictor key too.
+            model_checkpoint = root / 'synthetic_model.pt'
+            model_head = build_model('tiny_cnn', 2)
+            torch.save({'config': {'task': 'model', 'architecture': 'tiny_cnn', 'image_size': 16},
+                        'classes': ['A', 'B'], 'synthetic': True,
+                        'state_dict': model_head.state_dict()}, model_checkpoint)
+            model_result = analyse_vehicle_image(
+                root / 'car.png', predictors={'model': AttributePredictor(model_checkpoint, allow_synthetic=True)},
+                detections=[{'bbox': [0, 1, 12, 13], 'confidence': .9}])
+            model_profile = model_result['vehicles'][0]['vehicle_profile']
+            self.assertEqual(model_profile['status']['model'], 'synthetic_smoke_only')
+            self.assertIn(model_profile['model'], ['A', 'B'])
+            self.assertIsNone(model_profile['make'])
             with self.assertRaises(ValueError):
                 analyse_vehicle_image(root / 'car.png', predictors={'body_type': predictor}, detections=[])
 
