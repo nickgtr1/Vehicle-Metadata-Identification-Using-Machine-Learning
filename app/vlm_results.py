@@ -176,6 +176,10 @@ def render_vlm_final_findings(results_dir: Path) -> None:
     for label in missing:
         st.info(f"'{label}' results not found in {results_dir}.")
 
+    if summary.empty:
+        st.info("VLM evaluation files are unavailable. Image analysis remains available in Analyse.")
+        return
+
     def acc(run_label: str, attr: str):
         sub = summary[(summary["run"] == run_label) & (summary["attribute"] == attr)]
         return float(sub["accuracy"].iloc[0]) * 100 if len(sub) else None
@@ -215,6 +219,13 @@ def render_vlm_final_findings(results_dir: Path) -> None:
     if colour_zs is not None:
         c4.metric("Colour (zero-shot only)", f"{colour_zs:.1f}%", "not fine-tuned")
         c4.caption("No v1 equivalent (colour was never fine-tuned)")
+
+    if any(value is None for value in (
+        make_zs, model_zs, body_zs_raw, body_zs_con,
+        make_tuned, model_tuned, body_tuned, colour_zs,
+    )):
+        st.info("Some VLM runs are missing. Complete findings require all four main evaluation files.")
+        return
 
     st.markdown(
         f"""

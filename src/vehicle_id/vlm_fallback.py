@@ -6,6 +6,7 @@ so going through the one-task-at-a-time predictor interface would mean 2-3x
 redundant API calls for no benefit.
 """
 import tempfile
+from copy import deepcopy
 from pathlib import Path
 
 from PIL import Image
@@ -50,7 +51,16 @@ def apply_vlm_fallback(image_path, vehicles, predictors, *, enabled, mode="tuned
     if not fields_needed:
         return vehicles, None
 
-    from vehicle_id.vlm.client import predict_profile, predict_profile_tuned  # lazy: needs google-genai/API key
+    for rec in vehicles:
+        rec["attribute_profile"] = deepcopy(rec["vehicle_profile"])
+        rec["vlm_profile"] = {}
+        rec["vlm_status"] = "not_assessed"
+    try:
+        from vehicle_id.vlm.client import predict_profile, predict_profile_tuned  # lazy: needs google-genai/API key
+    except Exception as exc:
+        for rec in vehicles:
+            rec["vlm_status"] = "failed"
+        return vehicles, f"{type(exc).__name__}: {exc}"
 
     call = (lambda p: predict_profile_tuned(p)) if mode == "tuned" else (lambda p: predict_profile(p, prompt="constrained"))
 
@@ -71,11 +81,18 @@ def apply_vlm_fallback(image_path, vehicles, predictors, *, enabled, mode="tuned
             vlm_profile, _usage = call(tmp_path)
         except Exception as exc:  # noqa: BLE001 -- surface as a warning, keep processing other vehicles
             error = f"{type(exc).__name__}: {exc}"
+            rec["vlm_status"] = "failed"
             continue
         finally:
             if tmp_path:
                 Path(tmp_path).unlink(missing_ok=True)
 
+        rec["vlm_profile"] = {
+            field: getattr(vlm_profile, field, None)
+            for field in ("make", "model", "body_type", "colour")
+            if field != "colour" or mode != "tuned"
+        }
+        rec["vlm_status"] = f"vlm ({mode}, gemini-3.1-flash-lite, padded crop)"
         for field in fields_needed:
             value = getattr(vlm_profile, field, None)
             if value is None:
@@ -85,3 +102,21 @@ def apply_vlm_fallback(image_path, vehicles, predictors, *, enabled, mode="tuned
             prof["status"][field] = f"vlm ({mode}, gemini-3.1-flash-lite, padded crop)"
 
     return vehicles, error
+
+
+def comparison_rows(vehicles):
+    """Compare the local outputs with the independent VLM answer per vehicle."""
+    rows = []
+    for rec in vehicles:
+        local = rec.get("attribute_profile", rec["vehicle_profile"])
+        vlm = rec.get("vlm_profile") or {}
+        for attr in ("make", "body_type", "colour", "model"):
+            rows.append({
+                "vehicle": rec["vehicle_crop_id"],
+                "attribute": attr,
+                "attribute model / baseline": local.get(attr) or "not assessed",
+                "source": local.get("status", {}).get(attr, "not_assessed"),
+                "VLM": vlm.get(attr) or "not assessed",
+                "VLM source": rec.get("vlm_status", "not_assessed"),
+            })
+    return rows
