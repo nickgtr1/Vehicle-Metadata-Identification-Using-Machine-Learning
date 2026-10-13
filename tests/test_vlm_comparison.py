@@ -114,6 +114,28 @@ class ComparisonTests(unittest.TestCase):
         client.predict_profile_tuned.assert_not_called()
         self.assertEqual(vehicles[0]['vlm_profile']['colour'], 'red')
 
+    def test_model_predictor_keeps_local_model_and_still_retains_vlm_answer(self):
+        self.vehicle['vehicle_profile']['model'] = 'CV model'
+        self.vehicle['vehicle_profile']['confidence']['model'] = .5
+        vehicles, error, _client = self.run_with([self.vehicle], {'model': object()}, [
+            (VehicleProfile(make='VLM make', model='VLM model', body_type='SUV'), None)])
+        self.assertIsNone(error)
+        profile = vehicles[0]['vehicle_profile']
+        self.assertEqual(profile['model'], 'CV model')
+        self.assertEqual(profile['make'], 'VLM make')
+        self.assertEqual(vehicles[0]['vlm_profile']['model'], 'VLM model')
+        rows = {row['attribute']: row for row in comparison_rows(vehicles)}
+        self.assertEqual(rows['model']['attribute model / baseline'], 'CV model')
+        self.assertEqual(rows['model']['VLM'], 'VLM model')
+
+    def test_fully_covered_fields_make_no_vlm_call(self):
+        vehicles, error, client = self.run_with(
+            [self.vehicle], {'make': object(), 'model': object(), 'body_type': object()},
+            [(VehicleProfile(), None)])
+        self.assertIsNone(error)
+        client.predict_profile_tuned.assert_not_called()
+        self.assertEqual(vehicles[0]['vlm_profile'], {})
+
 
 if __name__ == '__main__':
     unittest.main()

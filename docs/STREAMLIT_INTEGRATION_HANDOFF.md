@@ -16,15 +16,18 @@ Use an existing project environment with the dependencies in `pyproject.toml`, p
 python -m streamlit run app/streamlit_app.py
 ```
 
-Load the detector and the separately shared attribute checkpoints using the sidebar. The final three-attribute package shared in Teams on 8 October contains:
+Load the detector and the separately shared attribute checkpoints using the sidebar. The sidebar takes one checkpoint per attribute: `make`, `model`, `body_type` and `colour`. The four-checkpoint package shared on 12 October contains:
 
+- `model_best_seed36128.pt` (431 classes)
 - `make_best_seed36127.pt` (75 classes)
 - `body_type_best_seed36128.pt` (12 classes)
 - `colour_best_seed36128.pt` (10 classes)
 
 Keep VLM disabled for the local CV demonstration. Check the annotated detections, corresponding vehicle cards/table rows, and CSV/JSON downloads using a repository sample such as `data/samples/high_angle_cars.jpg`. Confirm that downloads leave the displayed results available. Without a detector or attribute checkpoint, use the sidebar diagnostics rather than interpreting missing outputs as model predictions.
 
-Weights and datasets are distributed separately. The make/body checkpoint `pilot_only` metadata still needs confirmation from the package owner. This change does not add a CV car-model classifier or change training/evaluation results.
+Weights and datasets are distributed separately. The make/body checkpoint `pilot_only` metadata still needs confirmation from the package owner. The car-model checkpoint is selected on validation macro F1 and scored once on the declared 14,922-row official test subset; its evidence pack stays local and the numbers are self-audited. No training or evaluation results are changed by this handoff.
+
+When a car-model checkpoint is loaded, the VLM fill leaves `model` untouched and only fills the attributes that have no trained predictor; the VLM's own `model` answer is still recorded in `vlm_profile` for the comparison view.
 
 ## Validation
 

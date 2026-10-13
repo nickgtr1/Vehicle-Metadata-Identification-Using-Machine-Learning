@@ -20,7 +20,7 @@ from vehicle_id.attributes.colour import estimate_colour  # noqa: E402
 from vehicle_id.pipeline import analyse_vehicle_image  # noqa: E402
 
 BASELINE_CONFIG = REPO_ROOT / "configs" / "stage2_baseline.yaml"
-ATTRIBUTES = ("make", "body_type", "colour")
+ATTRIBUTES = ("make", "model", "body_type", "colour")
 SWATCH = {
     "black": "#111111", "white": "#f5f5f5", "grey": "#8c8c8c", "gray": "#8c8c8c", "silver": "#c0c0c0",
     "red": "#d62828", "orange": "#f77f00", "yellow": "#fcbf49", "green": "#2a9d4b", "blue": "#2563eb",
@@ -53,7 +53,7 @@ st.markdown(
 )
 st.markdown(
     '<div class="hero"><h1>Vehicle Metadata Identification</h1>'
-    "<p>Project #6 · 36127 · make, body type and colour from a single image</p></div>",
+    "<p>Project #6 · 36127 · make, model, body type and colour from a single image</p></div>",
     unsafe_allow_html=True,
 )
 
@@ -225,7 +225,7 @@ with analyse_tab:
                     f'<div class="row"><span class="k">Body type</span><span>{value_html(prof["body_type"], conf.get("body_type"))}</span></div>'
                     f'<div class="row"><span class="k">Colour</span><span>{value_html(prof["colour"], conf.get("colour"))}'
                     f'{" <span class=badge warn>baseline</span>" if colour_is_baseline else ""}</span></div>'
-                    f'<div class="row"><span class="k">Model</span><span>{value_html(prof["model"])}</span></div>'
+                    f'<div class="row"><span class="k">Model</span><span>{value_html(prof["model"], conf.get("model"))}</span></div>'
                     "</div>",
                     unsafe_allow_html=True,
                 )
@@ -239,6 +239,7 @@ with analyse_tab:
             "body_type": r["vehicle_profile"]["body_type"],
             "colour": r["vehicle_profile"]["colour"],
             "make_score": r["vehicle_profile"]["confidence"].get("make"),
+            "model_score": r["vehicle_profile"]["confidence"].get("model"),
             "body_score": r["vehicle_profile"]["confidence"].get("body_type"),
             "colour_score": r["vehicle_profile"]["confidence"].get("colour"),
             "bbox_xyxy": r["bbox_xyxy"],

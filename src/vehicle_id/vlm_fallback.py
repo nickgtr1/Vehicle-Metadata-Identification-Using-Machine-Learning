@@ -1,9 +1,12 @@
 """VLM-based fallback for make / model / body_type, mirroring the existing
 HSV colour-baseline block in streamlit_app.py. Not routed through pipeline.py's
-`predictors` mechanism: `model` isn't a supported predictor key there, and
-predict_profile_tuned() already returns make+model+body_type in a single call,
-so going through the one-task-at-a-time predictor interface would mean 2-3x
-redundant API calls for no benefit.
+`predictors` mechanism: predict_profile_tuned() already returns
+make+model+body_type in a single call, so going through the one-task-at-a-time
+predictor interface would mean 2-3x redundant API calls for no benefit.
+
+Fields that a trained predictor already covers are never requested, and never
+overwritten: a loaded car-model checkpoint replaces the VLM answer for `model`,
+while the VLM response is still retained separately for the comparison view.
 """
 import tempfile
 from copy import deepcopy
@@ -30,8 +33,8 @@ def _pad_bbox(bbox_xyxy, width, height, padding):
 
 def apply_vlm_fallback(image_path, vehicles, predictors, *, enabled, mode="tuned", padding=0.15):
     """Mutates each vehicle's vehicle_profile dict in place for any of
-    make / body_type / model not already covered by a trained predictor
-    ('model' is never covered by predictors -- it's always VLM-only).
+    make / model / body_type not already covered by a trained predictor. A
+    predictor for `model` therefore suppresses the VLM fill for `model` only.
 
     mode="tuned": predict_profile_tuned() -- best accuracy, needs Vertex/gcloud auth.
     mode="zero-shot": predict_profile() with the constrained prompt -- lower
@@ -47,14 +50,17 @@ def apply_vlm_fallback(image_path, vehicles, predictors, *, enabled, mode="tuned
     if not enabled or not vehicles:
         return vehicles, None
 
-    fields_needed = [a for a in ("make", "body_type") if a not in predictors] + ["model"]
-    if not fields_needed:
-        return vehicles, None
-
+    # Record the local profile before deciding anything: the comparison view needs
+    # it even when every field is already covered and no VLM call is made.
     for rec in vehicles:
         rec["attribute_profile"] = deepcopy(rec["vehicle_profile"])
         rec["vlm_profile"] = {}
         rec["vlm_status"] = "not_assessed"
+
+    fields_needed = [a for a in ("make", "model", "body_type") if a not in predictors]
+    if not fields_needed:
+        return vehicles, None
+
     try:
         from vehicle_id.vlm.client import predict_profile, predict_profile_tuned  # lazy: needs google-genai/API key
     except Exception as exc:
